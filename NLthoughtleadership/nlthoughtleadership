@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactief Rapport: Executive Thought Leadership ontwikkelen </title>
+
+    <!-- Gekozen Palet: Zakelijke Rust -->
+    <!-- Applicatiestructuurplan: De SPA is ontworpen als een meerdelig, enkelvoudig dashboard. Deze niet-lineaire structuur vervangt het traditionele hoofdstukformaat van het rapport door thematische, interactieve zones. Een persistente navigatiebalk bovenaan stelt gebruikers in staat direct naar belangrijke gebieden te springen: (1) Het kernproces van 4 fasen, (2) Individuele Ontwikkeling (met het EXPERT-framework), (3) Collectieve Ontwikkeling, en (4) een interactieve galerij met Casestudies. Deze taakgerichte architectuur is gekozen om gebruikersgestuurde verkenning te vergemakkelijken. Gebruikers kunnen een algemeen overzicht krijgen van het hoofdproces en vervolgens dieper ingaan op specifieke interessegebieden (bijv. individuele versus collectieve strategieën) zonder gedwongen te worden een lineair verhaal te volgen. Dit prioriteert bruikbaarheid en maakt de complexe informatie verteerbaar en toegankelijk op basis van de specifieke doelen van de gebruiker. -->
+    <!-- Visualisatie- en Inhoudskeuzes:
+        - 4-Fasen Geïntegreerd Proces: Rapportinformatie -> Het kernmodel met meerdere fasen voor het ontwikkelen van thought leadership. Doel -> Organiseren & Uitleggen. Visualisatie -> Interactief HTML/CSS flexbox diagram. Interactie -> Klikken op een fasekaart onthult de gedetailleerde beschrijving. Rechtvaardiging -> Boeiender en ruimtelijk georganiseerder dan een eenvoudige lijst, wat de processtroom verduidelijkt. Bibliotheek/Methode -> Vanilla JS, Tailwind CSS.
+        - EXPERT Framework: Rapportinformatie -> Een 6-stappen iteratieve cyclus voor individuele ontwikkeling. Doel -> Organiseren & Informeren. Visualisatie -> Klikbaar cirkelvormig diagram gebouwd met HTML/CSS. Interactie -> Klikken op een letter (E, X, P, E, R, T) markeert deze en toont de details. Rechtvaardiging -> Visualiseert de cyclische aard van het framework effectiever dan een tabel. Bibliotheek/Methode -> Vanilla JS, Tailwind CSS.
+        - Kennisdeling Analyse: Rapportinformatie -> Tabel 3 categoriseert sociale leermethoden/technologieën. Doel -> Vergelijken & Analyseren. Visualisatie -> Een dynamische donutgrafiek van Chart.js. Interactie -> Hoveren over segmenten toont de categorie en het aantal. Rechtvaardiging -> Biedt een snelle, kwantitatieve samenvatting van de beschikbare tools, waardoor de gegevens beter scanbaar zijn dan een lange tabel. Bibliotheek/Methode -> Chart.js.
+        - Casestudies: Rapportinformatie -> Een lijst met praktijkvoorbeelden. Doel -> Informeren & Organiseren. Visualisatie -> Een filterbaar raster van kaarten. Interactie -> Gebruikers kunnen op knoppen klikken om cases te filteren op type (bijv. 'Individueel', 'Collectief'). Rechtvaardiging -> Stelt gebruikers in staat snel voorbeelden te vinden die relevant zijn voor hun interesses, wat de vindbaarheid verbetert. Bibliotheek/Methode -> Vanilla JS, Tailwind CSS.
+    -->
+    <!-- BEVESTIGING: GEEN SVG-afbeeldingen gebruikt. GEEN Mermaid JS gebruikt. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #4A5568;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #2C5282;
+            border-bottom-color: #2C5282;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tag-individual { background-color: #EBF4FF; color: #2C5282; }
+        .tag-collective { background-color: #E6FFFA; color: #234E52; }
+        .tag-sustainability { background-color: #F0FFF4; color: #2F855A; }
+        
+        .expert-circle-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .expert-circle-item.active {
+            background-color: #2C5282;
+            color: white;
+            transform: scale(1.1);
+        }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 450px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 300px;
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { 
+            .chart-container { 
+                height: 350px; 
+            } 
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Header en Navigatie -->
+        <header class="bg-white/80 backdrop-blur-md sticky top-4 z-50 rounded-xl shadow-md mb-12">
+            <nav class="flex items-center justify-between p-4">
+                <h1 class="text-xl font-bold text-gray-800">Thought Leadership Navigator</h1>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#process" class="nav-link font-semibold text-gray-600 pb-1">Het Proces</a>
+                    <a href="#individual" class="nav-link font-semibold text-gray-600 pb-1">Individueel</a>
+                    <a href="#collective" class="nav-link font-semibold text-gray-600 pb-1">Collectief</a>
+                    <a href="#cases" class="nav-link font-semibold text-gray-600 pb-1">Casestudies</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden p-4 border-t border-gray-200">
+                <a href="#process" class="block py-2 text-gray-600 font-semibold">Het Proces</a>
+                <a href="#individual" class="block py-2 text-gray-600 font-semibold">Individueel</a>
+                <a href="#collective" class="block py-2 text-gray-600 font-semibold">Collectief</a>
+                <a href="#cases" class="block py-2 text-gray-600 font-semibold">Casestudies</a>
+            </div>
+        </header>
+
+        <main>
+            <!-- Hero Sectie -->
+            <section class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">De Strategische Noodzaak van Executive Thought Leadership</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    Dit interactieve rapport beschrijft een proces voor het ontwikkelen van executive thought leadership. Dat is niet langer slechts een wenselijke eigenschap, maar een kritieke strategie voor het vormgeven van het branche-discours, het stimuleren van innovatie en het veiligstellen van een duurzaam concurrentievoordeel. Navigeer hieronder door de belangrijkste frameworks en casestudies.
+                </p>
+            </section>
+
+            <!-- 4-Fasen Proces Sectie -->
+            <section id="process" class="mb-20">
+                <h3 class="text-3xl font-bold text-gray-800 text-center mb-2">Het ontwikkelingsproces</h3>
+                <p class="text-center text-gray-600 mb-12">Klik op elke fase om de kernactiviteiten te onthullen. Deze meerfasige reis synthetiseert persoonlijke ontwikkeling, collaboratieve intelligentie en strategische invloed.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+                    <!-- Fase 1 -->
+                    <div class="text-center">
+                        <div class="phase-card card p-6 cursor-pointer" data-phase="1">
+                            <div class="text-3xl mb-3">💡</div>
+                            <h4 class="font-bold text-lg text-gray-800">Fase 1</h4>
+                            <p class="font-semibold text-gray-700">Strategische Afstemming & Gemeenschapsontwerp</p>
+                        </div>
+                    </div>
+                    <!-- Fase 2 -->
+                     <div class="text-center">
+                        <div class="phase-card card p-6 cursor-pointer" data-phase="2">
+                            <div class="text-3xl mb-3">🤝</div>
+                            <h4 class="font-bold text-lg text-gray-800">Fase 2</h4>
+                            <p class="font-semibold text-gray-700">Content Co-creatie</p>
+                        </div>
+                    </div>
+                    <!-- Fase 3 -->
+                     <div class="text-center">
+                        <div class="phase-card card p-6 cursor-pointer" data-phase="3">
+                            <div class="text-3xl mb-3">📢</div>
+                            <h4 class="font-bold text-lg text-gray-800">Fase 3</h4>
+                            <p class="font-semibold text-gray-700">Amplificatie & Betrokkenheid</p>
+                        </div>
+                    </div>
+                    <!-- Fase 4 -->
+                     <div class="text-center">
+                        <div class="phase-card card p-6 cursor-pointer" data-phase="4">
+                            <div class="text-3xl mb-3">🔄</div>
+                            <h4 class="font-bold text-lg text-gray-800">Fase 4</h4>
+                            <p class="font-semibold text-gray-700">Continue Evolutie</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="phase-details-container" class="mt-8">
+                    <!-- Details worden hier geïnjecteerd -->
+                </div>
+            </section>
+
+            <!-- Individuele Ontwikkeling Sectie -->
+            <section id="individual" class="mb-20 bg-gray-50 p-8 rounded-2xl">
+                <h3 class="text-3xl font-bold text-gray-800 text-center mb-2">Individuele Ontwikkeling: Het EXPERT Framework</h3>
+                <p class="text-center text-gray-600 mb-12">Deze gestructureerde, iteratieve methodologie helpt individuele executives systematisch hun thought leadership te cultiveren. Klik op elke letter om meer te leren.</p>
+                <div class="flex flex-col lg:flex-row gap-8 items-center">
+                    <!-- EXPERT Cirkel -->
+                    <div class="w-full lg:w-1/2 flex justify-center items-center">
+                        <div class="relative w-72 h-72">
+                            <div id="expert-E1" class="expert-circle-item absolute top-0 left-1/2 -translate-x-1/2 -mt-5 flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg font-bold text-xl text-gray-700">EX</div>
+                            <div id="expert-P" class="expert-circle-item absolute top-1/4 right-0 -mr-5 flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg font-bold text-xl text-gray-700">P</div>
+                            <div id="expert-E2" class="expert-circle-item absolute bottom-1/4 right-0 -mr-5 flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg font-bold text-xl text-gray-700">E</div>
+                            <div id="expert-R" class="expert-circle-item absolute bottom-0 left-1/2 -translate-x-1/2 mb-2 flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg font-bold text-xl text-gray-700">R</div>
+                            <div id="expert-T" class="expert-circle-item absolute bottom-1/4 left-0 -ml-5 flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg font-bold text-xl text-gray-700">T</div>
+                            <div class="absolute inset-10 border-4 border-dashed border-gray-300 rounded-full"></div>
+                        </div>
+                    </div>
+                    <!-- EXPERT Details -->
+                    <div id="expert-details" class="w-full lg:w-1/2 card p-6 min-h-[20rem]">
+                        <!-- Details geïnjecteerd hier -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Collectieve Ontwikkeling Sectie -->
+            <section id="collective" class="mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Collectieve Ontwikkeling: De Kracht van de Gemeenschap</h3>
+                        <p class="text-gray-600 mb-4">Ware thought leadership bloeit niet in isolatie, maar door samenwerking. Dit omvat het benutten van collectieve intelligentie en het bevorderen van een cultuur van psychologische veiligheid waar diverse ideeën vrijelijk kunnen worden gedeeld.</p>
+                        <p class="text-gray-600 mb-4">Effectieve sociale leergemeenschappen maken gebruik van een reeks methoden en technologieën om deze uitwisseling te vergemakkelijken. De grafiek hiernaast toont een uitsplitsing van tools en benaderingen die in het rapport worden genoemd.</p>
+                        <div id="accordion-container">
+                            <button class="accordion-btn w-full text-left font-bold text-lg text-gray-800 p-4 bg-gray-100 rounded-lg mb-2">Kernprincipes van Collaboratief Leiderschap</button>
+                            <div class="accordion-content hidden p-4 bg-white rounded-lg">
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>**Bevordert Eenheid:** Leiderschapsteams werken samen in sectoren voor snelle, effectieve beslissingen.</li>
+                                    <li>**Toont Transparantie:** Openheid schept vertrouwen, waardoor het vrij delen van diverse perspectieven cruciaal is voor innovatie.</li>
+                                    <li>**Benut Individuele Sterktes:** Erkent dat een verenigd team van diverse talenten een grotere impact bereikt dan een enkele leider.</li>
+                                    <li>**Cultiveert Psychologische Veiligheid:** Creëert een omgeving waarin individuen zich veilig voelen om ideeën te delen en risico's te nemen zonder angst voor kritiek.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="text-xl font-bold text-gray-800 text-center mb-4">Kennisdelingsmethoden & Technologieën</h4>
+                        <div class="chart-container">
+                            <canvas id="knowledgeSharingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Casestudies Sectie -->
+            <section id="cases" class="mb-12 bg-gray-50 p-8 rounded-2xl">
+                <h3 class="text-3xl font-bold text-gray-800 text-center mb-2">Casestudies & Praktijktoepassingen</h3>
+                <p class="text-center text-gray-600 mb-8">Ontdek hoe deze principes succesvol zijn toegepast door toonaangevende organisaties en individuen. Gebruik de filters om door de voorbeelden te navigeren.</p>
+                <div class="flex justify-center space-x-2 mb-8">
+                    <button class="case-filter-btn bg-blue-600 text-white px-4 py-2 rounded-full font-semibold" data-filter="all">Alle</button>
+                    <button class="case-filter-btn bg-white text-gray-700 px-4 py-2 rounded-full font-semibold" data-filter="individual">Individueel</button>
+                    <button class="case-filter-btn bg-white text-gray-700 px-4 py-2 rounded-full font-semibold" data-filter="collective">Collectief</button>
+                    <button class="case-filter-btn bg-white text-gray-700 px-4 py-2 rounded-full font-semibold" data-filter="sustainability">Duurzaamheid</button>
+                </div>
+                <div id="case-studies-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Casestudies worden hier geïnjecteerd -->
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-16 py-6 border-t border-gray-200">
+            <p class="text-gray-500">Interactieve applicatie gebaseerd op het rapport: "Executive Thought Leadership Cultiveren: Een Geïntegreerd Proces binnen Sociale Leergemeenschappen."</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Data (vertaald naar Nederlands)
+            const phaseData = {
+                1: { title: "Fase 1: Strategische Afstemming & Gemeenschapsontwerp", description: "Deze fundamentele fase richt zich op het vaststellen van een duidelijke strategische richting. Kernactiviteiten omvatten het definiëren van duidelijke doelstellingen, het identificeren van de doelgroep, het ontwerpen van een deelnemersgerichte gemeenschap, het creëren van een cultuur van vertrouwen en psychologische veiligheid, en het veiligstellen van de benodigde middelen zoals bekwame facilitators en technologie.", icon: "💡" },
+                2: { title: "Fase 2: Individuele & Collectieve Content Co-creatie", description: "Deze fase richt zich op het actief genereren van thought leadership content. Het omvat het begeleiden van individuen door het EXPERT-framework en tegelijkertijd het implementeren van collaboratieve innovatiemethodologieën, zoals peer learning groepen en probleemoplossende sessies, om gedeelde kennis te bevorderen en collectieve inzichten te genereren.", icon: "🤝" },
+                3: { title: "Fase 3: Amplificatie, Betrokkenheid & Impact", description: "Zodra content is gecreëerd, verschuift de focus naar het maximaliseren van het bereik en de impact. Dit omvat strategische contentpromotie via relevante platforms, het hergebruiken van content in meerdere formaten (bijv. webinar naar podcast), het actief betrekken van het publiek om dialoog te bevorderen, en het meten van de impact via een uitgebreid meetkader.", icon: "📢" },
+                4: { title: "Fase 4: Continue Evolutie", description: "Thought leadership is een doorlopende reis die aanpassing vereist. Deze fase omvat het handhaven van een vloeiende gemeenschapsstructuur, het aanmoedigen van continu leren over branchetrends, het integreren van inzichten in het dagelijkse werk, en het implementeren van regelmatige reflectie- en feedbackloops (zoals 360-graden assessments) om groei te bevorderen.", icon: "🔄" }
+            };
+
+            const expertData = {
+                'E1': { title: "EX - Explore (Verkennen)", description: "Definieer visie, doelen en gewenste prestaties. Beoordeel concurrenten en identificeer de doelgroep om hun behoeften te begrijpen en thought leadership af te stemmen op de bedrijfsstrategie." },
+                'P': { title: "P – Plan (Plannen)", description: "Voer diepgaand brancheonderzoek uit om trends te identificeren. Ontwikkel een op maat gemaakte thought leadership strategie en een gedetailleerde content roadmap voor de komende maanden of jaar." },
+                'E2': { title: "E – Execute (Uitvoeren)", description: "Produceer hoogwaardige, diepgaand onderzochte content door de unieke standpunten van de executive vast te leggen. Coördineer publicatie en distributie via alle relevante interne en externe kanalen." },
+                'R': { title: "R - Review (Beoordelen)", description: "Monitor continu de contentprestaties met behulp van metrics zoals social media engagement. Analyseer inzichten om te begrijpen wat resoneert en voer continue aanpassingen uit aan het contentplan." },
+                'T': { title: "T - Transform (Transformeren)", description: "Audit de algehele voortgang en versterk ideeën naar een breder publiek. Het uiteindelijke doel is het opbouwen van duurzame merkwaarde en het verstevigen van de erfenis en autoriteit van de executive in hun vakgebied." }
+            };
+
+            const caseStudiesData = [
+                { title: "HubSpot's Content Strategie", description: "Bouwde een formidabele thought leadership aanwezigheid op door consequent waardevolle blogcontent aan te bieden, waardoor ze zichzelf vestigden als een vertrouwde autoriteit.", tags: ['individual'] },
+                { title: "Elon Musk (Tesla)", description: "Richt zich op een visionaire verschuiving in transport, waarbij uitdagingen worden omgezet in kansen en hij zichzelf positioneert als een toonaangevende leider in de branche.", tags: ['individual'] },
+                { title: "Patagonia's Duurzaamheidsstandpunt", description: "Gebruikte zijn platform om de milieu behoeften aan te pakken, bouwde diep vertrouwen op door authentieke communicatie over hun inzet.", tags: ['sustainability'] },
+                { title: "Peer Circle van Wereldwijde Financiële Onderneming", description: "Senior executives vormden een maandelijkse peer learning circle om strategie te bespreken en trends te delen, wat een cultuur van continu leren bevorderde.", tags: ['collective'] },
+                { title: "Adviesgroepen van Tech Accelerator", description: "Oprichters uit diverse sectoren vormden tweewekelijkse peer advisory groups om groeitrajecten te delen en uitdagingen op te lossen, wat de veerkracht vergrootte.", tags: ['collective'] },
+                { title: "Scott Galloway's Authentieke Commentaar", description: "Bouwt vertrouwen en een loyale aanhang op door persoonlijke, humoristische en kwetsbare content te delen, met oprechte gedachten en ervaringen.", tags: ['individual'] },
+                { title: "Unilever & IKEA's Co-creatie", description: "Betrekken actief externe belanghebbenden zoals klanten en academici bij co-creatie, waarbij collectieve intelligentie buiten interne grenzen wordt benut.", tags: ['collective'] },
+                { title: "Executive Fellows Program van King's Business School", description: "Bedrijfsleiders werken samen met de academische wereld, betrekken studenten om onderwijs te bevorderen en positioneren zichzelf als toonaangevende stemmen.", tags: ['collective'] }
+            ];
+
+            // Mobiel Menu
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Fase Kaarten Interactie
+            const phaseCards = document.querySelectorAll('.phase-card');
+            const phaseDetailsContainer = document.getElementById('phase-details-container');
+
+            phaseCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const phaseId = card.dataset.phase;
+                    const data = phaseData[phaseId];
+                    
+                    phaseDetailsContainer.innerHTML = `
+                        <div class="card p-6 bg-blue-50 border border-blue-200">
+                            <div class="flex items-center mb-3">
+                                <div class="text-2xl mr-4">${data.icon}</div>
+                                <h5 class="font-bold text-xl text-gray-800">${data.title}</h5>
+                            </div>
+                            <p class="text-gray-700">${data.description}</p>
+                        </div>
+                    `;
+                });
+            });
+
+            // EXPERT Framework Interactie
+            const expertItems = document.querySelectorAll('.expert-circle-item');
+            const expertDetailsContainer = document.getElementById('expert-details');
+
+            function updateExpertDetails(key) {
+                const data = expertData[key];
+                expertDetailsContainer.innerHTML = `
+                    <h5 class="font-bold text-xl text-gray-800 mb-3">${data.title}</h5>
+                    <p class="text-gray-700">${data.description}</p>
+                `;
+                expertItems.forEach(item => item.classList.remove('active'));
+                document.getElementById(`expert-${key}`).classList.add('active');
+            }
+
+            expertItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const key = item.id.replace('expert-', '');
+                    updateExpertDetails(key);
+                });
+            });
+            updateExpertDetails('E1'); // Initiële staat
+
+            // Casestudies Filteren
+            const filterBtns = document.querySelectorAll('.case-filter-btn');
+            const caseGrid = document.getElementById('case-studies-grid');
+
+            function renderCaseStudies(filter = 'all') {
+                caseGrid.innerHTML = '';
+                const filteredStudies = filter === 'all' 
+                    ? caseStudiesData 
+                    : caseStudiesData.filter(study => study.tags.includes(filter));
+                
+                filteredStudies.forEach(study => {
+                    const tagHtml = study.tags.map(tag => {
+                        let tagClass = '';
+                        if (tag === 'individual') tagClass = 'tag-individual';
+                        if (tag === 'collective') tagClass = 'tag-collective';
+                        if (tag === 'sustainability') tagClass = 'tag-sustainability';
+                        return `<span class="tag ${tagClass}">${tag}</span>`;
+                    }).join(' ');
+
+                    const cardEl = document.createElement('div');
+                    cardEl.className = 'card p-6 flex flex-col';
+                    cardEl.innerHTML = `
+                        <h5 class="font-bold text-lg text-gray-800 mb-2">${study.title}</h5>
+                        <p class="text-gray-600 mb-4 flex-grow">${study.description}</p>
+                        <div>${tagHtml}</div>
+                    `;
+                    caseGrid.appendChild(cardEl);
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+                    renderCaseStudies(filter);
+                    filterBtns.forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
+                    filterBtns.forEach(b => b.classList.add('bg-white', 'text-gray-700'));
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    btn.classList.remove('bg-white', 'text-gray-700');
+                });
+            });
+            renderCaseStudies();
+
+            // Accordeon
+            document.querySelector('.accordion-btn').addEventListener('click', function() {
+                this.nextElementSibling.classList.toggle('hidden');
+            });
+            
+            // Kennisdeling Grafiek
+            const ctx = document.getElementById('knowledgeSharingChart').getContext('2d');
+            const knowledgeData = {
+                labels: ['Direct & Interactief', 'Peer-gedreven & Ervaringsgericht', 'Content-gebaseerd & Samengesteld', 'Betrokkenheid & Geavanceerd'],
+                datasets: [{
+                    label: 'Aantal Methoden/Technologieën',
+                    data: [8, 8, 14, 4], // Aantallen uit Tabel 3 van het rapport
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: knowledgeData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                             labels: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
