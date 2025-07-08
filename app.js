@@ -1,271 +1,382 @@
+// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Progress bar functionality
-    const progressBar = document.getElementById('progressBar');
-    
-    function updateProgressBar() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = (scrollTop / documentHeight) * 100;
-        
-        progressBar.style.width = scrollPercentage + '%';
-    }
-    
-    // Throttle scroll events for better performance
-    let ticking = false;
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateProgressBar);
-            ticking = true;
-        }
-    }
-    
-    function handleScroll() {
-        ticking = false;
-        requestTick();
-    }
-    
-    window.addEventListener('scroll', handleScroll);
-    
-    // Initialize progress bar
-    updateProgressBar();
-    
-    // Intersection Observer for fade-in animations
+    // Initialize all interactive features
+    initScrollAnimations();
+    initEffectivenessAnimations();
+    initCounterAnimations();
+    initSmoothScrolling();
+});
+
+// Intersection Observer for scroll animations
+function initScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
-    const observer = new IntersectionObserver(function(entries) {
+
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('animate');
             }
         });
     }, observerOptions);
-    
-    // Observe all cards and sections for animation
-    const animatedElements = document.querySelectorAll('.phase-card, .framework-card, .success-factor, .matrix-column');
-    animatedElements.forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'all 0.6s ease-out';
-        observer.observe(element);
+
+    // Timeline items
+    const timelineItems = document.querySelectorAll('.timeline__item');
+    timelineItems.forEach((item, index) => {
+        item.style.transitionDelay = `${index * 0.2}s`;
+        observer.observe(item);
     });
-    
-    // Phase card hover effects
-    const phaseCards = document.querySelectorAll('.phase-card');
-    phaseCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
-            this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02)';
-        });
+
+    // Leadership cards
+    const leadershipCards = document.querySelectorAll('.leadership__card');
+    leadershipCards.forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
     });
-    
-    // Framework card interactions
-    const frameworkCards = document.querySelectorAll('.framework-card');
-    frameworkCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            const icon = this.querySelector('.framework-header i');
-            icon.style.transform = 'scale(1.2) rotate(5deg)';
-            icon.style.transition = 'transform 0.3s ease';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            const icon = this.querySelector('.framework-header i');
-            icon.style.transform = 'scale(1) rotate(0deg)';
-        });
+
+    // Breakthrough cards
+    const breakthroughCards = document.querySelectorAll('.breakthrough__card');
+    breakthroughCards.forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.15}s`;
+        observer.observe(card);
     });
-    
-    // Success factor card interactions
-    const successFactors = document.querySelectorAll('.success-factor');
-    successFactors.forEach(factor => {
-        factor.addEventListener('mouseenter', function() {
-            const icon = this.querySelector('.factor-icon');
-            icon.style.transform = 'scale(1.15) rotate(10deg)';
-            icon.style.background = 'linear-gradient(135deg, var(--color-primary), var(--color-primary-hover))';
-        });
-        
-        factor.addEventListener('mouseleave', function() {
-            const icon = this.querySelector('.factor-icon');
-            icon.style.transform = 'scale(1) rotate(0deg)';
-            icon.style.background = 'var(--color-primary)';
-        });
+
+    // Impact statistics
+    const impactStats = document.querySelectorAll('.impact__stat');
+    impactStats.forEach((stat, index) => {
+        stat.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(stat);
     });
-    
-    // Smooth reveal animation for lists
-    const lists = document.querySelectorAll('.actions-section ul, .roles-section ul, .framework-card ul, .role-group ul');
-    lists.forEach(list => {
-        const items = list.querySelectorAll('li');
-        items.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(-20px)';
-            item.style.transition = `all 0.4s ease-out ${index * 0.1}s`;
-        });
+
+    // Legacy symbols
+    const legacySymbols = document.querySelectorAll('.symbol-item');
+    legacySymbols.forEach((symbol, index) => {
+        symbol.style.transitionDelay = `${index * 0.2}s`;
+        observer.observe(symbol);
     });
-    
-    // Observe lists for staggered animation
-    const listObserver = new IntersectionObserver(function(entries) {
+}
+
+// Effectiveness bar animations
+function initEffectivenessAnimations() {
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const effectivenessObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const items = entry.target.querySelectorAll('li');
-                items.forEach(item => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateX(0)';
+                const bar = entry.target.querySelector('.effectiveness-fill');
+                const effectiveness = entry.target.getAttribute('data-effectiveness');
+                
+                if (bar && effectiveness) {
+                    setTimeout(() => {
+                        bar.style.width = effectiveness + '%';
+                    }, 300);
+                }
+            }
+        });
+    }, observerOptions);
+
+    const effectivenessBars = document.querySelectorAll('.effectiveness-bar');
+    effectivenessBars.forEach(bar => {
+        effectivenessObserver.observe(bar);
+    });
+}
+
+// Counter animations for statistics
+function initCounterAnimations() {
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                
+                if (target && !counter.classList.contains('counted')) {
+                    counter.classList.add('counted');
+                    animateCounter(counter, target);
+                }
+            }
+        });
+    }, observerOptions);
+
+    const counters = document.querySelectorAll('.stat__number');
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+}
+
+// Animate counter from 0 to target value
+function animateCounter(element, target) {
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        
+        // Format large numbers with commas
+        const formattedNumber = formatNumber(Math.floor(current));
+        element.textContent = formattedNumber;
+    }, duration / steps);
+}
+
+// Format numbers with commas for thousands
+function formatNumber(num) {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(0) + 'K';
+    } else {
+        return num.toString();
+    }
+}
+
+// Smooth scrolling for navigation
+function initSmoothScrolling() {
+    // Add smooth scrolling to all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
-    }, observerOptions);
-    
-    lists.forEach(list => {
-        listObserver.observe(list);
     });
-    
-    // Add click-to-expand functionality for phase cards on mobile
-    if (window.innerWidth <= 768) {
-        phaseCards.forEach(card => {
-            const content = card.querySelector('.phase-content');
-            const header = card.querySelector('.phase-header');
-            
-            // Initially collapse content on mobile
-            content.style.maxHeight = '0';
-            content.style.overflow = 'hidden';
-            content.style.transition = 'max-height 0.4s ease-out';
-            
-            // Add expand indicator
-            const expandIndicator = document.createElement('div');
-            expandIndicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
-            expandIndicator.style.cssText = `
-                margin-left: auto;
-                color: var(--color-primary);
-                transition: transform 0.3s ease;
-                cursor: pointer;
-            `;
-            header.appendChild(expandIndicator);
-            
-            header.addEventListener('click', function() {
-                const isExpanded = content.style.maxHeight !== '0px';
-                
-                if (isExpanded) {
-                    content.style.maxHeight = '0';
-                    expandIndicator.style.transform = 'rotate(0deg)';
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                    expandIndicator.style.transform = 'rotate(180deg)';
-                }
-            });
+}
+
+// Add hover effects for interactive elements
+document.addEventListener('DOMContentLoaded', function() {
+    // Phoenix icon animation on hover
+    const phoenixIcon = document.querySelector('.phoenix-icon');
+    if (phoenixIcon) {
+        phoenixIcon.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1) rotate(5deg)';
+            this.style.transition = 'transform 0.3s ease';
         });
-    }
-    
-    // Add subtle parallax effect to hero section
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-            heroSection.style.transform = `translateY(${rate}px)`;
-        });
-    }
-    
-    // Add typing animation to hero title
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
-        heroTitle.style.borderRight = '2px solid var(--color-btn-primary-text)';
         
-        let i = 0;
-        const typeWriter = function() {
-            if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            } else {
-                // Remove cursor after typing is complete
-                setTimeout(() => {
-                    heroTitle.style.borderRight = 'none';
-                }, 500);
-            }
-        };
-        
-        // Start typing animation after a brief delay
-        setTimeout(typeWriter, 500);
-    }
-    
-    // Add number counting animation for phase numbers
-    const phaseNumbers = document.querySelectorAll('.phase-number');
-    const numberObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const number = entry.target;
-                const target = parseInt(number.textContent);
-                let current = 0;
-                
-                const increment = target / 20;
-                const timer = setInterval(() => {
-                    current += increment;
-                    number.textContent = Math.floor(current);
-                    
-                    if (current >= target) {
-                        number.textContent = target;
-                        clearInterval(timer);
-                    }
-                }, 50);
-            }
+        phoenixIcon.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
         });
-    }, observerOptions);
-    
-    phaseNumbers.forEach(number => {
-        numberObserver.observe(number);
-    });
-    
-    // Add smooth hover effects for all interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .phase-card, .framework-card, .success-factor');
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', function() {
+    }
+
+    // Timeline marker pulse effect
+    const timelineMarkers = document.querySelectorAll('.timeline__marker');
+    timelineMarkers.forEach(marker => {
+        marker.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+            this.style.borderColor = '#16a34a';
             this.style.transition = 'all 0.3s ease';
         });
-    });
-    
-    // Add keyboard navigation support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            window.scrollBy(0, 100);
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            window.scrollBy(0, -100);
-        }
-    });
-    
-    // Add resize handler for responsive adjustments
-    window.addEventListener('resize', function() {
-        // Recalculate progress bar
-        updateProgressBar();
         
-        // Adjust mobile interactions based on screen size
-        if (window.innerWidth > 768) {
-            // Remove mobile-specific interactions if screen becomes larger
-            phaseCards.forEach(card => {
-                const content = card.querySelector('.phase-content');
-                if (content) {
-                    content.style.maxHeight = 'none';
-                    content.style.overflow = 'visible';
-                }
-            });
-        }
+        marker.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.borderColor = '#f97316';
+        });
     });
-    
-    // Add loading animation
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease-in';
-    
-    window.addEventListener('load', function() {
-        document.body.style.opacity = '1';
+
+    // Leadership card icon bounce
+    const leadershipIcons = document.querySelectorAll('.leadership__icon');
+    leadershipIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.2) translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        icon.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) translateY(0)';
+        });
+    });
+
+    // Add keyboard navigation support
+    addKeyboardSupport();
+});
+
+// Keyboard navigation support
+function addKeyboardSupport() {
+    const focusableElements = document.querySelectorAll(
+        '.leadership__card, .breakthrough__card, .impact__stat, .symbol-item'
+    );
+
+    focusableElements.forEach(element => {
+        element.setAttribute('tabindex', '0');
+        
+        element.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                // Trigger hover effect
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                this.style.transition = 'transform 0.3s ease';
+                
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            }
+        });
+    });
+}
+
+// Add scroll progress indicator
+function addScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, #f97316, #16a34a, #f59e0b);
+        z-index: 9999;
+        transition: width 0.1s ease;
+    `;
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.offsetHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        
+        progressBar.style.width = scrollPercent + '%';
+    });
+}
+
+// Initialize scroll progress on load
+document.addEventListener('DOMContentLoaded', addScrollProgress);
+
+// Add parallax effect to hero section
+function addParallaxEffect() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallaxSpeed = 0.5;
+        
+        hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    });
+}
+
+// Initialize parallax effect
+document.addEventListener('DOMContentLoaded', addParallaxEffect);
+
+// Add resize handler for responsive animations
+window.addEventListener('resize', function() {
+    // Recalculate animations on resize
+    const animatedElements = document.querySelectorAll('.animate');
+    animatedElements.forEach(element => {
+        // Reset animation state
+        element.classList.remove('animate');
+        
+        // Re-trigger animation after a short delay
+        setTimeout(() => {
+            element.classList.add('animate');
+        }, 100);
     });
 });
+
+// Performance optimization: Throttle scroll events
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// Apply throttling to scroll events
+window.addEventListener('scroll', throttle(function() {
+    // Scroll-based animations can be added here
+}, 16)); // ~60fps
+
+// Add loading animation
+function addLoadingAnimation() {
+    const elements = document.querySelectorAll('.hero__content > *');
+    elements.forEach((element, index) => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, index * 200);
+    });
+}
+
+// Initialize loading animation
+document.addEventListener('DOMContentLoaded', addLoadingAnimation);
+
+// Add error handling for animations
+function handleAnimationErrors() {
+    window.addEventListener('error', function(e) {
+        console.warn('Animation error:', e);
+        // Fallback: ensure elements are visible
+        const hiddenElements = document.querySelectorAll('[style*="opacity: 0"]');
+        hiddenElements.forEach(element => {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+        });
+    });
+}
+
+// Initialize error handling
+document.addEventListener('DOMContentLoaded', handleAnimationErrors);
+
+// Add accessibility announcements for screen readers
+function addAccessibilityAnnouncements() {
+    const announcer = document.createElement('div');
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    announcer.style.cssText = `
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    `;
+    document.body.appendChild(announcer);
+
+    // Announce when sections come into view
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionTitle = entry.target.querySelector('.section-title');
+                if (sectionTitle) {
+                    announcer.textContent = `Now viewing: ${sectionTitle.textContent}`;
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+}
+
+// Initialize accessibility features
+document.addEventListener('DOMContentLoaded', addAccessibilityAnnouncements);
