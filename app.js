@@ -1,382 +1,509 @@
-// Wait for DOM to be fully loaded
+// GitHub Repository Organization Guide - Interactive JavaScript
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all interactive features
-    initScrollAnimations();
-    initEffectivenessAnimations();
-    initCounterAnimations();
-    initSmoothScrolling();
+    initializeApp();
 });
 
-// Intersection Observer for scroll animations
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, observerOptions);
-
-    // Timeline items
-    const timelineItems = document.querySelectorAll('.timeline__item');
-    timelineItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.2}s`;
-        observer.observe(item);
-    });
-
-    // Leadership cards
-    const leadershipCards = document.querySelectorAll('.leadership__card');
-    leadershipCards.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.1}s`;
-        observer.observe(card);
-    });
-
-    // Breakthrough cards
-    const breakthroughCards = document.querySelectorAll('.breakthrough__card');
-    breakthroughCards.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.15}s`;
-        observer.observe(card);
-    });
-
-    // Impact statistics
-    const impactStats = document.querySelectorAll('.impact__stat');
-    impactStats.forEach((stat, index) => {
-        stat.style.transitionDelay = `${index * 0.1}s`;
-        observer.observe(stat);
-    });
-
-    // Legacy symbols
-    const legacySymbols = document.querySelectorAll('.symbol-item');
-    legacySymbols.forEach((symbol, index) => {
-        symbol.style.transitionDelay = `${index * 0.2}s`;
-        observer.observe(symbol);
-    });
+function initializeApp() {
+    setupProgressBar();
+    setupNavigation();
+    setupStrategyCards();
+    setupDecisionTree();
+    setupTabs();
+    setupSmoothScrolling();
+    setupIntersectionObserver();
 }
 
-// Effectiveness bar animations
-function initEffectivenessAnimations() {
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
-    };
-
-    const effectivenessObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const bar = entry.target.querySelector('.effectiveness-fill');
-                const effectiveness = entry.target.getAttribute('data-effectiveness');
-                
-                if (bar && effectiveness) {
-                    setTimeout(() => {
-                        bar.style.width = effectiveness + '%';
-                    }, 300);
-                }
-            }
-        });
-    }, observerOptions);
-
-    const effectivenessBars = document.querySelectorAll('.effectiveness-bar');
-    effectivenessBars.forEach(bar => {
-        effectivenessObserver.observe(bar);
-    });
-}
-
-// Counter animations for statistics
-function initCounterAnimations() {
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
-    };
-
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-target'));
-                
-                if (target && !counter.classList.contains('counted')) {
-                    counter.classList.add('counted');
-                    animateCounter(counter, target);
-                }
-            }
-        });
-    }, observerOptions);
-
-    const counters = document.querySelectorAll('.stat__number');
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
-}
-
-// Animate counter from 0 to target value
-function animateCounter(element, target) {
-    const duration = 2000; // 2 seconds
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
+// Progress Bar Functionality
+function setupProgressBar() {
+    const progressBar = document.getElementById('progressFill');
     
-    const timer = setInterval(() => {
-        current += increment;
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = (scrollTop / documentHeight) * 100;
         
-        if (current >= target) {
-            current = target;
-            clearInterval(timer);
+        progressBar.style.width = scrollPercentage + '%';
+    });
+}
+
+// Navigation Functionality
+function setupNavigation() {
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 80; // Account for fixed navbar
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Update active nav link
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+}
+
+// Strategy Cards Interaction
+function setupStrategyCards() {
+    const strategyCards = document.querySelectorAll('.strategy-card');
+    
+    strategyCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove active class from all cards
+            strategyCards.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked card
+            this.classList.add('active');
+            
+            // Add visual feedback
+            this.style.transform = 'translateY(-8px)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-5px)';
+            }, 200);
+        });
+        
+        // Add hover effects
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = '#0366d6';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                this.style.borderColor = 'transparent';
+            }
+        });
+    });
+}
+
+// Decision Tree Functionality
+function setupDecisionTree() {
+    const decisionOptions = document.querySelectorAll('.decision-option');
+    const decisionNodes = document.querySelectorAll('.decision-node');
+    const decisionResult = document.getElementById('decisionResult');
+    
+    decisionOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const nextNode = this.getAttribute('data-next');
+            const result = this.getAttribute('data-result');
+            
+            if (nextNode) {
+                // Show next decision node
+                decisionNodes.forEach(node => node.classList.remove('active'));
+                document.querySelector(`[data-node="${nextNode}"]`).classList.add('active');
+            } else if (result) {
+                // Show result
+                decisionNodes.forEach(node => node.classList.remove('active'));
+                showDecisionResult(result);
+            }
+        });
+    });
+}
+
+function showDecisionResult(strategy) {
+    const decisionResult = document.getElementById('decisionResult');
+    const resultContent = decisionResult.querySelector('.result-content');
+    
+    const strategies = {
+        single: {
+            title: 'Single Repository',
+            description: 'Perfect for your needs! Keep all projects in one repository with organized subfolders.',
+            icon: 'fas fa-folder',
+            color: '#0366d6',
+            benefits: [
+                'Easy to manage and maintain',
+                'Shared resources across projects',
+                'Great for learning and practice',
+                'Lower administrative overhead'
+            ]
+        },
+        multiple: {
+            title: 'Repository per Project',
+            description: 'Excellent choice! Each project gets its own dedicated repository.',
+            icon: 'fas fa-code-branch',
+            color: '#28a745',
+            benefits: [
+                'Clean, professional URLs',
+                'Independent project deployment',
+                'Better project isolation',
+                'Easier client presentation'
+            ]
+        },
+        hybrid: {
+            title: 'Hybrid Approach',
+            description: 'Smart strategy! Group related projects into themed repositories.',
+            icon: 'fas fa-sitemap',
+            color: '#f66a0a',
+            benefits: [
+                'Balanced organization',
+                'Logical project grouping',
+                'Flexible structure',
+                'Good for team collaboration'
+            ]
         }
-        
-        // Format large numbers with commas
-        const formattedNumber = formatNumber(Math.floor(current));
-        element.textContent = formattedNumber;
-    }, duration / steps);
+    };
+    
+    const selectedStrategy = strategies[strategy];
+    
+    resultContent.innerHTML = `
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="background: ${selectedStrategy.color}; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem;">
+                <i class="${selectedStrategy.icon}"></i>
+            </div>
+            <h4 style="color: #24292e; margin-bottom: 0.5rem;">${selectedStrategy.title}</h4>
+            <p style="color: #586069; margin-bottom: 1.5rem;">${selectedStrategy.description}</p>
+        </div>
+        <div>
+            <h5 style="color: #24292e; margin-bottom: 1rem;">Key Benefits:</h5>
+            <ul style="list-style: none; padding: 0;">
+                ${selectedStrategy.benefits.map(benefit => `
+                    <li style="padding: 0.5rem 0; color: #586069; position: relative; padding-left: 1.5rem;">
+                        <span style="position: absolute; left: 0; color: ${selectedStrategy.color};">✓</span>
+                        ${benefit}
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+    `;
+    
+    decisionResult.classList.add('active');
 }
 
-// Format numbers with commas for thousands
-function formatNumber(num) {
-    if (num >= 1000000) {
-        return (num / 1000000).toFixed(1) + 'M';
-    } else if (num >= 1000) {
-        return (num / 1000).toFixed(0) + 'K';
-    } else {
-        return num.toString();
-    }
+function resetDecisionTree() {
+    const decisionNodes = document.querySelectorAll('.decision-node');
+    const decisionResult = document.getElementById('decisionResult');
+    
+    decisionNodes.forEach(node => node.classList.remove('active'));
+    decisionResult.classList.remove('active');
+    
+    // Show the first node
+    document.querySelector('[data-node="start"]').classList.add('active');
 }
 
-// Smooth scrolling for navigation
-function initSmoothScrolling() {
+// Make resetDecisionTree available globally
+window.resetDecisionTree = resetDecisionTree;
+
+// Tab Functionality
+function setupTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            this.classList.add('active');
+            document.querySelector(`[data-tab="${targetTab}"].tab-content`).classList.add('active');
+        });
+    });
+}
+
+// Smooth Scrolling Enhancement
+function setupSmoothScrolling() {
     // Add smooth scrolling to all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const offsetTop = target.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
                 });
             }
         });
     });
 }
 
-// Add hover effects for interactive elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Phoenix icon animation on hover
-    const phoenixIcon = document.querySelector('.phoenix-icon');
-    if (phoenixIcon) {
-        phoenixIcon.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1) rotate(5deg)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        phoenixIcon.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) rotate(0deg)';
-        });
-    }
-
-    // Timeline marker pulse effect
-    const timelineMarkers = document.querySelectorAll('.timeline__marker');
-    timelineMarkers.forEach(marker => {
-        marker.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1)';
-            this.style.borderColor = '#16a34a';
-            this.style.transition = 'all 0.3s ease';
-        });
-        
-        marker.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-            this.style.borderColor = '#f97316';
-        });
-    });
-
-    // Leadership card icon bounce
-    const leadershipIcons = document.querySelectorAll('.leadership__icon');
-    leadershipIcons.forEach(icon => {
-        icon.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.2) translateY(-5px)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        icon.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) translateY(0)';
-        });
-    });
-
-    // Add keyboard navigation support
-    addKeyboardSupport();
-});
-
-// Keyboard navigation support
-function addKeyboardSupport() {
-    const focusableElements = document.querySelectorAll(
-        '.leadership__card, .breakthrough__card, .impact__stat, .symbol-item'
-    );
-
-    focusableElements.forEach(element => {
-        element.setAttribute('tabindex', '0');
-        
-        element.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                // Trigger hover effect
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-                this.style.transition = 'transform 0.3s ease';
+// Intersection Observer for Navigation
+function setupIntersectionObserver() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -80px 0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const currentId = entry.target.getAttribute('id');
                 
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+    
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+}
+
+// Enhanced Strategy Card Interactions
+function enhanceStrategyCards() {
+    const strategyCards = document.querySelectorAll('.strategy-card');
+    
+    strategyCards.forEach(card => {
+        // Add click-to-expand functionality
+        card.addEventListener('click', function() {
+            const isExpanded = this.classList.contains('expanded');
+            
+            // Collapse all cards
+            strategyCards.forEach(c => c.classList.remove('expanded'));
+            
+            if (!isExpanded) {
+                this.classList.add('expanded');
+                // Scroll to show full card
                 setTimeout(() => {
-                    this.style.transform = '';
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             }
         });
     });
 }
 
-// Add scroll progress indicator
-function addScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    progressBar.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
-        background: linear-gradient(90deg, #f97316, #16a34a, #f59e0b);
-        z-index: 9999;
-        transition: width 0.1s ease;
+// Interactive Decision Tree Enhancements
+function enhanceDecisionTree() {
+    const decisionTree = document.querySelector('.decision-tree');
+    
+    // Add breadcrumb navigation
+    const breadcrumb = document.createElement('div');
+    breadcrumb.className = 'decision-breadcrumb';
+    breadcrumb.innerHTML = '<span>Question 1 of 3</span>';
+    decisionTree.insertBefore(breadcrumb, decisionTree.firstChild);
+    
+    // Track progress through decision tree
+    const decisionOptions = document.querySelectorAll('.decision-option');
+    let currentStep = 1;
+    
+    decisionOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const nextNode = this.getAttribute('data-next');
+            const result = this.getAttribute('data-result');
+            
+            if (nextNode) {
+                currentStep++;
+                breadcrumb.innerHTML = `<span>Question ${currentStep} of 3</span>`;
+            } else if (result) {
+                breadcrumb.innerHTML = '<span>✓ Recommendation Ready</span>';
+            }
+        });
+    });
+}
+
+// Checklist Functionality
+function setupChecklist() {
+    const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+    const totalItems = checkboxes.length;
+    
+    // Create progress indicator
+    const progressIndicator = document.createElement('div');
+    progressIndicator.className = 'checklist-progress';
+    progressIndicator.innerHTML = `
+        <div style="margin-bottom: 1rem;">
+            <span style="font-weight: 600; color: #24292e;">Progress: </span>
+            <span id="checklist-count">0</span>/${totalItems} completed
+        </div>
+        <div style="background: #e1e4e8; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div id="checklist-bar" style="background: #28a745; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+        </div>
     `;
-    document.body.appendChild(progressBar);
-
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.body.offsetHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        
-        progressBar.style.width = scrollPercent + '%';
+    
+    const checklist = document.querySelector('.checklist');
+    checklist.parentNode.insertBefore(progressIndicator, checklist);
+    
+    // Update progress when items are checked
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const checkedCount = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked').length;
+            const percentage = (checkedCount / totalItems) * 100;
+            
+            document.getElementById('checklist-count').textContent = checkedCount;
+            document.getElementById('checklist-bar').style.width = percentage + '%';
+            
+            // Add celebration effect when all items are checked
+            if (checkedCount === totalItems) {
+                showCelebration();
+            }
+        });
     });
 }
 
-// Initialize scroll progress on load
-document.addEventListener('DOMContentLoaded', addScrollProgress);
+function showCelebration() {
+    const celebration = document.createElement('div');
+    celebration.innerHTML = `
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); text-align: center; z-index: 1000;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <h3 style="color: #24292e; margin-bottom: 0.5rem;">Congratulations!</h3>
+            <p style="color: #586069;">You've completed all best practices!</p>
+            <button onclick="this.parentElement.parentElement.remove()" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 1rem;">Close</button>
+        </div>
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+    `;
+    document.body.appendChild(celebration);
+    
+    setTimeout(() => {
+        if (celebration.parentNode) {
+            celebration.remove();
+        }
+    }, 3000);
+}
 
-// Add parallax effect to hero section
-function addParallaxEffect() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxSpeed = 0.5;
-        
-        hero.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+// URL Examples Interactive Features
+function setupUrlExamples() {
+    const urlCards = document.querySelectorAll('.url-card');
+    
+    urlCards.forEach(card => {
+        const codeElement = card.querySelector('code');
+        if (codeElement) {
+            codeElement.addEventListener('click', function() {
+                // Copy to clipboard
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    // Show feedback
+                    const originalText = this.textContent;
+                    this.textContent = 'Copied!';
+                    this.style.background = '#28a745';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '#24292e';
+                    }, 2000);
+                });
+            });
+            
+            // Add hover effect
+            codeElement.style.cursor = 'pointer';
+            codeElement.title = 'Click to copy';
+        }
     });
 }
 
-// Initialize parallax effect
-document.addEventListener('DOMContentLoaded', addParallaxEffect);
-
-// Add resize handler for responsive animations
-window.addEventListener('resize', function() {
-    // Recalculate animations on resize
-    const animatedElements = document.querySelectorAll('.animate');
-    animatedElements.forEach(element => {
-        // Reset animation state
-        element.classList.remove('animate');
+// Troubleshooting Search Functionality
+function setupTroubleshootingSearch() {
+    const troubleshootingSection = document.getElementById('troubleshooting');
+    if (!troubleshootingSection) return;
+    
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'trouble-search';
+    searchContainer.innerHTML = `
+        <div style="max-width: 400px; margin: 0 auto 2rem;">
+            <input type="text" id="troubleSearch" placeholder="Search troubleshooting topics..." style="width: 100%; padding: 0.75rem; border: 2px solid #e1e4e8; border-radius: 8px; font-size: 1rem;">
+        </div>
+    `;
+    
+    const container = troubleshootingSection.querySelector('.container');
+    const sectionDescription = container.querySelector('.section-description');
+    sectionDescription.parentNode.insertBefore(searchContainer, sectionDescription.nextSibling);
+    
+    const searchInput = document.getElementById('troubleSearch');
+    const troubleItems = document.querySelectorAll('.trouble-item');
+    
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
         
-        // Re-trigger animation after a short delay
-        setTimeout(() => {
-            element.classList.add('animate');
-        }, 100);
+        troubleItems.forEach(item => {
+            const title = item.querySelector('h3').textContent.toLowerCase();
+            const content = item.querySelector('.trouble-solution').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     });
+}
+
+// Mobile Menu Toggle
+function setupMobileMenu() {
+    const navbar = document.querySelector('.navbar');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    // Create mobile menu toggle button
+    const mobileToggle = document.createElement('button');
+    mobileToggle.className = 'mobile-toggle';
+    mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    mobileToggle.style.cssText = `
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #24292e;
+        cursor: pointer;
+        padding: 0.5rem;
+    `;
+    
+    // Add to navbar
+    navbar.querySelector('.container').appendChild(mobileToggle);
+    
+    // Toggle functionality
+    mobileToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('mobile-active');
+        const icon = this.querySelector('i');
+        icon.className = navMenu.classList.contains('mobile-active') ? 'fas fa-times' : 'fas fa-bars';
+    });
+    
+    // Close menu when clicking on links
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            navMenu.classList.remove('mobile-active');
+            mobileToggle.querySelector('i').className = 'fas fa-bars';
+        });
+    });
+}
+
+// Initialize additional features
+document.addEventListener('DOMContentLoaded', function() {
+    setupChecklist();
+    setupUrlExamples();
+    setupTroubleshootingSearch();
+    setupMobileMenu();
+    enhanceStrategyCards();
+    enhanceDecisionTree();
+    
+    // Add loading animation
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = '1';
+    }, 100);
 });
 
-// Performance optimization: Throttle scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
+// Performance optimization
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
     };
 }
 
-// Apply throttling to scroll events
-window.addEventListener('scroll', throttle(function() {
-    // Scroll-based animations can be added here
-}, 16)); // ~60fps
-
-// Add loading animation
-function addLoadingAnimation() {
-    const elements = document.querySelectorAll('.hero__content > *');
-    elements.forEach((element, index) => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, index * 200);
-    });
-}
-
-// Initialize loading animation
-document.addEventListener('DOMContentLoaded', addLoadingAnimation);
-
-// Add error handling for animations
-function handleAnimationErrors() {
-    window.addEventListener('error', function(e) {
-        console.warn('Animation error:', e);
-        // Fallback: ensure elements are visible
-        const hiddenElements = document.querySelectorAll('[style*="opacity: 0"]');
-        hiddenElements.forEach(element => {
-            element.style.opacity = '1';
-            element.style.transform = 'none';
-        });
-    });
-}
-
-// Initialize error handling
-document.addEventListener('DOMContentLoaded', handleAnimationErrors);
-
-// Add accessibility announcements for screen readers
-function addAccessibilityAnnouncements() {
-    const announcer = document.createElement('div');
-    announcer.setAttribute('aria-live', 'polite');
-    announcer.setAttribute('aria-atomic', 'true');
-    announcer.style.cssText = `
-        position: absolute;
-        left: -10000px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-    `;
-    document.body.appendChild(announcer);
-
-    // Announce when sections come into view
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionTitle = entry.target.querySelector('.section-title');
-                if (sectionTitle) {
-                    announcer.textContent = `Now viewing: ${sectionTitle.textContent}`;
-                }
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-}
-
-// Initialize accessibility features
-document.addEventListener('DOMContentLoaded', addAccessibilityAnnouncements);
+// Apply debouncing to scroll event
+window.addEventListener('scroll', debounce(function() {
+    // Any scroll-related functions can be called here
+}, 10));
