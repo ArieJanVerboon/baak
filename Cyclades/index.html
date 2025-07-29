@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>14-Day Greek Islands Sailing Adventure: Athens → Santorini → Hydra</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="site-header" class="site-header">
+    <div class="container header-main flex justify-between items-center py-16">
+      <div class="header-titles">
+        <h1>14-Day Greek Islands Sailing Adventure</h1>
+        <p class="subtitle">Athens → Santorini → Hydra</p>
+      </div>
+      <button id="themeToggle" class="btn btn--outline" aria-label="Toggle light or dark mode" title="Toggle light/dark mode">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <path d="M12 1v2"></path>
+          <path d="M12 21v2"></path>
+          <path d="M4.22 4.22l1.42 1.42"></path>
+          <path d="M18.36 18.36l1.42 1.42"></path>
+          <path d="M1 12h2"></path>
+          <path d="M21 12h2"></path>
+          <path d="M4.22 19.78l1.42-1.42"></path>
+          <path d="M18.36 5.64l1.42-1.42"></path>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+    </div>
+    <div class="container header-legend flex items-center gap-8 pb-16">
+      <div class="legend-item flex items-center gap-4">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-sailboat">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+        <span>Sailing leg</span>
+      </div>
+      <span class="status status--info hidden-mobile">Tap a card on mobile to expand highlights</span>
+    </div>
+  </header>
+
+  <main class="timeline-wrapper">
+    <section class="timeline" aria-label="Sailing itinerary timeline">
+      <!-- Day 1 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778489/pplx_project_search_images/66ba545fc7a1541acb0105c4e453b3122cc9fd6a.jpg" alt="Vourkari port on Kea Island with sailboats docked at dusk" /></figure>
+        <div class="card__header">
+          <h2>Day 1</h2>
+          <h3>Athens (Lavrion) → Kea</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 17-20 NM</p>
+          <ul class="highlights">
+            <li>Vourkari port</li>
+            <li>Otzias Beach</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 2 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778487/pplx_project_search_images/3a59f262be64427b735ae1449e44371f2a480eff.jpg" alt="Aerial view of Kolona double beach on Kythnos" /></figure>
+        <div class="card__header">
+          <h2>Day 2</h2>
+          <h3>Kea → Kythnos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 24 NM</p>
+          <ul class="highlights">
+            <li>Kolona double beach</li>
+            <li>Loutra hot springs</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 3 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778486/pplx_project_search_images/2d5e1114adea90b2ed7c14001f05f3c2c654a6fe.jpg" alt="Hilltop Chora village on Serifos island" /></figure>
+        <div class="card__header">
+          <h2>Day 3</h2>
+          <h3>Kythnos → Serifos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 27 NM</p>
+          <ul class="highlights">
+            <li>Livadi port</li>
+            <li>Hilltop Chora</li>
+            <li>Psili Ammos beach</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 4 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778486/pplx_project_search_images/0455a31ceb81e6d98e2652b085418a84fcb8ccba.jpg" alt="Kamares port with whitewashed houses on Sifnos" /></figure>
+        <div class="card__header">
+          <h2>Day 4</h2>
+          <h3>Serifos → Sifnos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 18 NM</p>
+          <ul class="highlights">
+            <li>Kamares port</li>
+            <li>Apollonia village</li>
+            <li>Local cuisine</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 5 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778486/pplx_project_search_images/06d63247b76c169cec544a8e66cdd4a6ba6538a8.jpg" alt="Sarakiniko Beach's white volcanic cliffs on Milos" /></figure>
+        <div class="card__header">
+          <h2>Day 5</h2>
+          <h3>Sifnos → Milos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 27 NM</p>
+          <ul class="highlights">
+            <li>Sarakiniko Beach</li>
+            <li>Klima village</li>
+            <li>Volcanic landscape</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 6 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778507/pplx_project_search_images/b36fe8e8d405ad46f718e4d1a2f8ce30ea7e1040.jpg" alt="Traditional Kimolos Chora village at twilight" /></figure>
+        <div class="card__header">
+          <h2>Day 6</h2>
+          <h3>Milos → Kimolos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 12 NM</p>
+          <ul class="highlights">
+            <li>Authentic Chora</li>
+            <li>Prassa Beach</li>
+            <li>Traditional village life</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 7 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778507/pplx_project_search_images/a700bf16fcdcd46299528363b0b1abb2ffc27621.jpg" alt="Santorini's caldera cliffs with whitewashed buildings at sunset" /></figure>
+        <div class="card__header">
+          <h2>Day 7</h2>
+          <h3>Kimolos → Santorini</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 45 NM</p>
+          <ul class="highlights">
+            <li>Caldera anchorage</li>
+            <li>Volcanic cliffs</li>
+            <li>World-famous sunset</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 8 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778507/pplx_project_search_images/4a6495a147ab44a8e6c74ca64f86189fb0a8d525.jpg" alt="Bougainvillea framing white buildings and caldera in Santorini" /></figure>
+        <div class="card__header">
+          <h2>Day 8</h2>
+          <h3>Santorini exploration</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 0 NM</p>
+          <ul class="highlights">
+            <li>Fira</li>
+            <li>Oia</li>
+            <li>Akrotiri ruins</li>
+            <li>Red Beach</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 9 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778508/pplx_project_search_images/8a626940998862d5384cc4c1b5adf04eecd53054.jpg" alt="Chora village hillside on Ios island" /></figure>
+        <div class="card__header">
+          <h2>Day 9</h2>
+          <h3>Santorini → Ios</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 25 NM</p>
+          <ul class="highlights">
+            <li>Magganari Beach</li>
+            <li>Chora village</li>
+            <li>Skarkos ruins</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 10 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778507/pplx_project_search_images/1794f107dc2688f5216e7b6a938bbfbeb91af0d1.jpg" alt="Clifftop Chora of Folegandros overlooking the Aegean" /></figure>
+        <div class="card__header">
+          <h2>Day 10</h2>
+          <h3>Ios → Folegandros</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 22 NM</p>
+          <ul class="highlights">
+            <li>Clifftop Chora</li>
+            <li>Dramatic cliffs</li>
+            <li>Secluded beaches</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 11 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778486/pplx_project_search_images/0455a31ceb81e6d98e2652b085418a84fcb8ccba.jpg" alt="Traditional village on Sifnos island" /></figure>
+        <div class="card__header">
+          <h2>Day 11</h2>
+          <h3>Folegandros → Sifnos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 34 NM</p>
+          <ul class="highlights">
+            <li>Return to Sifnos</li>
+            <li>Hidden coves</li>
+            <li>Gastronomy</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 12 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778486/pplx_project_search_images/402d529226494c1f6a44a8e677b3e9c645cd94cb.jpg" alt="Aerial view of Kolona beach's sandbar on Kythnos" /></figure>
+        <div class="card__header">
+          <h2>Day 12</h2>
+          <h3>Sifnos → Kythnos</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> Multi-stop</p>
+          <ul class="highlights">
+            <li>Island hopping</li>
+            <li>Serifos stop</li>
+            <li>Return route</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 13 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://pplx-res.cloudinary.com/image/upload/v1753778507/pplx_project_search_images/13753adff3b44d2baeb2c52c35f841fb2d09b2ea.jpg" alt="Aerial view of Poros harbor with pine-covered hills" /></figure>
+        <div class="card__header">
+          <h2>Day 13</h2>
+          <h3>Kythnos → Poros</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 30 NM</p>
+          <ul class="highlights">
+            <li>Pine forests</li>
+            <li>Saronic Gulf entry</li>
+            <li>Traditional tavernas</li>
+          </ul>
+        </div>
+      </article>
+      
+      <div class="sail-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+      </div>
+
+      <!-- Day 14 -->
+      <article class="card day-card" tabindex="0" role="button" aria-expanded="false">
+        <figure class="card__image"><img loading="lazy" src="https://i0.wp.com/unusualplaces.org/wp-content/uploads/2024/03/Depositphotos_384947508_L.jpg?ssl=1" alt="Harbor and stone buildings on car-free Hydra island" /></figure>
+        <div class="card__header">
+          <h2>Day 14</h2>
+          <h3>Poros → Hydra</h3>
+        </div>
+        <div class="card__body">
+          <p class="distance"><strong>Distance:</strong> 15 NM</p>
+          <ul class="highlights">
+            <li>Car-free island</li>
+            <li>Stone architecture</li>
+            <li>Historic harbor</li>
+            <li>Final destination</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer container py-16">
+    <p>Designed &amp; built by your friendly AI assistant.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
