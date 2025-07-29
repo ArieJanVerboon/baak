@@ -1,0 +1,91 @@
+<!-- Updated route-map section with inline SVG rather than external image -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expert 14-Day Sailing Itinerary: Athens ➜ Santorini ➜ Hydra</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <header class="hero">
+      <div class="container hero__content flex flex-col items-center gap-16 py-16">
+        <h1 class="hero__title">Expert 14-Day Sailing Itinerary</h1>
+        <h2 class="hero__subtitle">Athens ➜ Santorini ➜ Hydra</h2>
+        <p class="hero__meta">Approx. 650 NM • Intermediate → Advanced • Best Season: May-Jun / Sep-Oct</p>
+        <img
+          class="hero__image"
+          src="https://pplx-res.cloudinary.com/image/upload/v1751631390/pplx_project_search_images/3bed8fe97f4f0df3f6ffdbacac380a347592cbf6.jpg"
+          alt="Sailing yacht silhouetted against a Greek sunset"
+        />
+      </div>
+    </header>
+
+    <main>
+      <section id="overview" class="container py-16">
+        <div class="card">
+          <div class="card__body flex flex-col gap-8">
+            <h3>Itinerary Overview</h3>
+            <div class="flex flex-wrap gap-16">
+              <div class="status status--info">Total Distance: approx. 650 NM</div>
+              <div class="status status--info">Duration: 14 days</div>
+              <div class="status status--warning">Difficulty: Intermediate ➜ Advanced</div>
+              <div class="status status--success">Best Season: May-Jun / Sep-Oct</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW SVG ROUTE MAP -->
+      <section id="route-map" class="py-16" style="background-color: var(--color-bg-8)">
+        <div class="container flex flex-col gap-16 items-center">
+          <h3>Visual Route Map</h3>
+          <div id="route-map-wrapper" class="route-map-wrapper">
+            <!-- SVG will be injected by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <section id="itinerary" class="container py-16">
+        <h3 class="mb-8">Day-by-Day Breakdown</h3>
+        <div id="itinerary-container" class="flex flex-col gap-16"></div>
+      </section>
+
+      <section id="distance-chart-section" class="py-16" style="background-color: var(--color-bg-1)">
+        <div class="container flex flex-col gap-16">
+          <h3>Daily Sailing Distances (NM)</h3>
+          <div class="chart-container" style="position: relative; height: 400px;">
+            <canvas id="distance-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="expert-tips" class="container py-16">
+        <h3 class="mb-8">Expert Recommendations</h3>
+        <div id="tips-container" class="flex flex-col gap-16"></div>
+      </section>
+
+      <section id="weather" class="py-16" style="background-color: var(--color-bg-2)">
+        <div class="container flex flex-col gap-16">
+          <h3>Weather & Wind Advisory</h3>
+          <div id="weather-container" class="flex flex-col gap-8"></div>
+        </div>
+      </section>
+
+      <section id="marinas" class="container py-16">
+        <h3 class="mb-8">Key Marinas & Harbors</h3>
+        <div id="marinas-container" class="flex flex-col gap-16"></div>
+      </section>
+    </main>
+
+    <footer class="py-16 flex justify-center" style="background-color: var(--color-bg-3)">
+      <p>© 2025 Expert Sailors Guide — Athens ➜ Santorini ➜ Hydra</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
