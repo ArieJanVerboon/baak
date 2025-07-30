@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Gems in the Cyclades for Sailboats</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="hero">
+        <div class="hero__overlay"></div>
+        <div class="hero__content">
+            <div class="container">
+                <h1 class="hero__title">Hidden Gems in the Cyclades for Sailboats</h1>
+                <p class="hero__subtitle">Secluded anchorages, pristine beaches & nature spots accessible only by sea</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Interactive Map</h2>
+            <p class="section-subtitle">Click on markers to discover hidden sailing destinations</p>
+            <div class="map-container" style="position: relative; height: 500px;">
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Discover by Category</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="Small Cyclades">
+                    <div class="category-card__icon" style="background-color: #2E86AB;"></div>
+                    <h3>Small Cyclades</h3>
+                    <p>Iraklia, Donousa, Schoinoussa, Koufonisia - untouched gems with pristine anchorages</p>
+                    <span class="category-count">5 locations</span>
+                </div>
+                <div class="category-card" data-category="Uninhabited Islands">
+                    <div class="category-card__icon" style="background-color: #A23B72;"></div>
+                    <h3>Uninhabited Islands</h3>
+                    <p>Rinia, Polyaigos, Despotiko - wild islands for true solitude and nature</p>
+                    <span class="category-count">3 locations</span>
+                </div>
+                <div class="category-card" data-category="Hidden Beaches">
+                    <div class="category-card__icon" style="background-color: #F18F01;"></div>
+                    <h3>Hidden Beaches</h3>
+                    <p>Secret beaches and unique anchorages accessible only by sea</p>
+                    <span class="category-count">2 locations</span>
+                </div>
+                <div class="category-card" data-category="Sea Caves">
+                    <div class="category-card__icon" style="background-color: #C73E1D;"></div>
+                    <h3>Sea Caves</h3>
+                    <p>Underwater wonders and dramatic coastal formations</p>
+                    <span class="category-count">2 locations</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Cards Grid -->
+    <section class="locations-section">
+        <div class="container">
+            <h2 class="section-title">All Hidden Gems</h2>
+            <div class="location-filter">
+                <button class="filter-btn active" data-filter="all">All Locations</button>
+                <button class="filter-btn" data-filter="Small Cyclades">Small Cyclades</button>
+                <button class="filter-btn" data-filter="Uninhabited Islands">Uninhabited Islands</button>
+                <button class="filter-btn" data-filter="Hidden Beaches">Hidden Beaches</button>
+                <button class="filter-btn" data-filter="Sea Caves">Sea Caves</button>
+            </div>
+            <div class="locations-grid" id="locationsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Sailing Tips Section -->
+    <section class="tips-section">
+        <div class="container">
+            <h2 class="section-title">Essential Sailing Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3>Best Sailing Season</h3>
+                    <p>May, June, September, and October offer fewer crowds and more manageable winds. July-August brings strong Meltemi winds.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>Essential Equipment</h3>
+                    <p>Bring snorkeling gear and hiking shoes - many islets offer both marine and land adventures.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>Protected Areas</h3>
+                    <p>Monitor for restrictions - many beaches and caves are protected habitats or archaeological sites.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>Wildlife Watching</h3>
+                    <p>Look for dolphins, monk seals, Eleonora's falcons, and rare endemic plants in Natura 2000 areas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Cyclades Sailing Guide. Explore responsibly and preserve these natural treasures.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
