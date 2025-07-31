@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyclades Cat-Watching Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🐱 Cyclades Cat-Watching Guide</h1>
+            <p class="header-description">
+                Discover the best locations to observe and photograph the famous cats of the Greek Cyclades islands. 
+                Click on any pin to learn more about each cat-watching hotspot.
+            </p>
+        </header>
+        
+        <div class="map-container">
+            <div id="map" class="map"></div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="card">
+                <div class="card__body">
+                    <h3>About This Map</h3>
+                    <p>This interactive map showcases the premier cat-watching destinations across the Cyclades islands. Each location offers unique opportunities to observe the diverse feline populations that call these Greek islands home.</p>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-icon">🐱</span>
+                            <span>Cat-watching location</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
