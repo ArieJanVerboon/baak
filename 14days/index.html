@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>14-Day Greek Islands Sailing Adventure: Athens → Santorini → Hydra</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="site-header" class="site-header">
+    <div class="container header-main flex justify-between items-center py-16">
+      <div class="header-titles">
+        <h1>14-Day Greek Islands Sailing Adventure</h1>
+        <p class="subtitle">Athens → Santorini → Hydra | September 7-20, 2025</p>
+      </div>
+      <button id="themeToggle" class="btn btn--outline" aria-label="Toggle light or dark mode" title="Toggle light/dark mode">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <path d="M12 1v2"></path>
+          <path d="M12 21v2"></path>
+          <path d="M4.22 4.22l1.42 1.42"></path>
+          <path d="M18.36 18.36l1.42 1.42"></path>
+          <path d="M1 12h2"></path>
+          <path d="M21 12h2"></path>
+          <path d="M4.22 19.78l1.42-1.42"></path>
+          <path d="M18.36 5.64l1.42-1.42"></path>
+        </svg>
+        <span class="sr-only">Toggle theme</span>
+      </button>
+    </div>
+    <div class="container header-legend flex items-center gap-8 pb-16">
+      <div class="legend-item flex items-center gap-4">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-sailboat">
+          <path d="M3 22h18" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75V21" />
+          <path d="M12 12H2l10-9v9z" />
+        </svg>
+        <span>Sailing leg</span>
+      </div>
+      <span class="status status--info hidden-mobile">Tap a card on mobile to expand details</span>
+    </div>
+  </header>
+
+  <main class="timeline-wrapper">
+    <section class="timeline" id="itinerary-timeline" aria-label="Sailing itinerary timeline">
+      <!-- Timeline will be populated by JavaScript -->
+    </section>
+  </main>
+
+  <footer class="site-footer container py-16">
+    <div class="route-summary">
+      <h3>Route Summary</h3>
+      <div class="summary-stats flex gap-16">
+        <div class="stat">
+          <strong>Total Distance:</strong> 
+          <span id="total-distance">~413 NM</span>
+        </div>
+        <div class="stat">
+          <strong>Duration:</strong> 
+          <span>14 days</span>
+        </div>
+      </div>
+      <p><strong>Best Season:</strong> September - excellent weather, fewer crowds</p>
+      <div class="expert-tips">
+        <h4>Expert Sailing Tips:</h4>
+        <ul>
+          <li>Early morning departures before Meltemi builds</li>
+          <li>September offers ideal conditions - warm but not too hot</li>
+          <li>Flexible itinerary essential for weather windows</li>
+          <li>Book marina berths in advance for Santorini</li>
+          <li>Carry extra anchor chain for deeper anchorages</li>
+        </ul>
+      </div>
+    </div>
+    <p class="credits">Interactive sailing itinerary • Last updated July 2025</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
