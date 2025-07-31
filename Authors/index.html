@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyclades Literary Pilgrim Route</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1>Cyclades Literary Pilgrim Route</h1>
+            <button class="btn btn--secondary btn--sm reset-btn" id="resetView">Reset View</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Pilgrimage Stops</h2>
+                <p class="sidebar-subtitle">Follow the literary journey through the Cyclades</p>
+            </div>
+            
+            <nav class="stops-list">
+                <div class="stop-item" data-index="0">
+                    <div class="stop-number">1</div>
+                    <div class="stop-content">
+                        <h3>Mykonos (Start)</h3>
+                        <p>Gateway to the Cyclades - John Freely's research base, Peter Fiennes' departure point to sacred Delos</p>
+                    </div>
+                </div>
+                
+                <div class="stop-item" data-index="1">
+                    <div class="stop-number">2</div>
+                    <div class="stop-content">
+                        <h3>Delos</h3>
+                        <p>Sacred island of Apollo - Freely's historical chronicles, Fry's mythological tales, Fiennes' reflective walks</p>
+                    </div>
+                </div>
+                
+                <div class="stop-item" data-index="2">
+                    <div class="stop-number">3</div>
+                    <div class="stop-content">
+                        <h3>Paros</h3>
+                        <p>Island of marble - Freely's architectural praise, Fiennes' search for Greece's most beautiful beach</p>
+                    </div>
+                </div>
+                
+                <div class="stop-item" data-index="3">
+                    <div class="stop-number">4</div>
+                    <div class="stop-content">
+                        <h3>Naxos</h3>
+                        <p>Island of light - Henry Miller's inspiration, Freely's Dionysian myths, Fiennes' Zeus legends</p>
+                    </div>
+                </div>
+                
+                <div class="stop-item" data-index="4">
+                    <div class="stop-number">5</div>
+                    <div class="stop-content">
+                        <h3>Santorini (End)</h3>
+                        <p>Volcanic finale - Freely's Atlantis connections, Fiennes' climate meditations</p>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
