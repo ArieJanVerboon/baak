@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Henry Miller's 1939 Journey Through Greece</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1>Henry Miller's Journey Through Greece</h1>
+            <div class="header-controls">
+                <button class="btn btn--secondary btn--sm" id="toggleInfo">Info</button>
+                <button class="btn btn--primary btn--sm" id="resetView">Reset View</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>The Colossus of Maroussi</h2>
+                <p class="sidebar-subtitle">Follow Miller's transformative 1939 journey</p>
+                <div class="journey-info">
+                    <div class="info-item">
+                        <strong>Year:</strong> 1939
+                    </div>
+                    <div class="info-item">
+                        <strong>Duration:</strong> 9 months
+                    </div>
+                    <div class="info-item">
+                        <strong>Context:</strong> Pre-WWII escape from Paris at Lawrence Durrell's invitation
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="locations-list">
+                <div class="location-item" data-index="0">
+                    <div class="location-number">1</div>
+                    <div class="location-content">
+                        <h3>Athens</h3>
+                        <div class="event-type">Arrival and meeting George Katsimbalis</div>
+                        <p class="location-description">Miller arrives at Piraeus and meets the charismatic poet George Katsimbalis, the "Colossus" of his book title.</p>
+                        <div class="quote">"The light of Greece opened my eyes, penetrated my pores, expanded my whole being"</div>
+                    </div>
+                </div>
+
+                <div class="location-item" data-index="1">
+                    <div class="location-number">2</div>
+                    <div class="location-content">
+                        <h3>Delos</h3>
+                        <div class="event-type">Spiritual rebirth experience</div>
+                        <p class="location-description">On the sacred uninhabited island of Delos, birthplace of Apollo, Miller experiences a spiritual rebirth.</p>
+                        <div class="quote">"Marvelous things happen to one in Greece—marvelous good things which can happen to one nowhere else on earth"</div>
+                    </div>
+                </div>
+
+                <div class="location-item" data-index="2">
+                    <div class="location-number">3</div>
+                    <div class="location-content">
+                        <h3>Mykonos</h3>
+                        <div class="event-type">Dazzling light and island life</div>
+                        <p class="location-description">Miller is struck by the brilliant clarity of Cycladic light and the simplicity of island life.</p>
+                        <div class="quote">"The dazzling clarity of the light, the sea's brilliance, and the simplicity of island life"</div>
+                    </div>
+                </div>
+
+                <div class="location-item" data-index="3">
+                    <div class="location-number">4</div>
+                    <div class="location-content">
+                        <h3>Poros</h3>
+                        <div class="event-type">Timeless, mystical Greece</div>
+                        <p class="location-description">The dreamlike approach by boat to Poros fills Miller with a sense of eternal, mystical Greece.</p>
+                        <div class="quote">"To sail slowly through the streets of Poros is to recapture the joy of passing through the neck of the womb"</div>
+                    </div>
+                </div>
+
+                <div class="location-item" data-index="4">
+                    <div class="location-number">5</div>
+                    <div class="location-content">
+                        <h3>Hydra</h3>
+                        <div class="event-type">Artistic inspiration and serenity</div>
+                        <p class="location-description">Miller finds peace and artistic inspiration in the island's cobblestone alleys and timeless beauty.</p>
+                        <div class="quote">"A moment which endures beyond world wars"</div>
+                    </div>
+                </div>
+
+                <div class="location-item" data-index="5">
+                    <div class="location-number">6</div>
+                    <div class="location-content">
+                        <h3>Crete/Knossos</h3>
+                        <div class="event-type">Sitting on the Throne of Minos</div>
+                        <p class="location-description">Miller visits the Palace of Knossos and sits on King Minos' throne, feeling connected to ancient civilizations.</p>
+                        <div class="quote">"Seated on King Minos throne I felt closer to Montezuma than to Homer"</div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="legend">
+                    <h4>Journey Legend</h4>
+                    <div class="legend-item">
+                        <div class="legend-marker"></div>
+                        <span>Miller's destinations</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-line"></div>
+                        <span>Journey route</span>
+                    </div>
+                </div>
+                <div class="attribution">
+                    <p><strong>Source:</strong> "The Colossus of Maroussi" (1941)</p>
+                    <p>Map data © OpenStreetMap contributors</p>
+                </div>
+            </div>
+        </aside>
+
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="map-overlay">
+                <div class="intro-panel" id="introPanel">
+                    <button class="close-btn" id="closeIntro" aria-label="Close">×</button>
+                    <h3>Henry Miller's Transformative Journey</h3>
+                    <p>In 1939, American writer Henry Miller embarked on a life-changing journey through Greece at the invitation of Lawrence Durrell. This 9-month odyssey became the foundation for his masterpiece "The Colossus of Maroussi" (1941).</p>
+                    <p>Click on the markers to explore each location and discover how Greece transformed Miller's perspective on life, art, and spirituality.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
