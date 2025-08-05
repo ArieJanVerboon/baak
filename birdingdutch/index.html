@@ -135,6 +135,17 @@
             display: block;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+        .llm-output-section {
+            background-color: #e6f7ff; /* Lichter blauw voor LLM secties */
+            border-left: 4px solid #3498db; /* Blauwe rand */
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+            color: #333;
+        }
+        .llm-output-section h4 {
+            color: #2c5282;
+        }
 
         /* Responsieve aanpassingen voor kaarthoogte */
         @media (min-width: 640px) {
@@ -160,6 +171,20 @@
         <p class="text-lg text-white">Klik op de spelden om de beste vogelspotplekken te ontdekken!</p>
     </header>
 
+    <!-- Nieuwe sectie voor algemene vogelspot tips -->
+    <div class="w-full max-w-4xl bg-white p-6 rounded-xl shadow-lg mb-8 text-center">
+        <h2 class="text-2xl font-bold text-blue-800 mb-4">Algemene Vogelspot Tips voor de Cycladen</h2>
+        <button id="generateGeneralTipsBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300">
+            ✨ Genereer Tips ✨
+        </button>
+        <div id="generalTipsOutput" class="llm-output-section mt-4" style="display: none;">
+            <div id="generalTipsContent"></div>
+            <div id="generalTipsSpinner" class="hidden text-center mt-2">
+                <div class="loading-spinner"></div> Tips laden...
+            </div>
+        </div>
+    </div>
+
     <!-- Kaart Container -->
     <div id="map"></div>
 
@@ -175,6 +200,20 @@
 
         <h3 class="text-xl font-semibold text-blue-700 mb-3">Opmerkelijke Soorten:</h3>
         <ul id="cardNotableSpecies" class="list-none pl-0 grid grid-cols-1 sm:grid-cols-2 gap-2"></ul>
+
+        <!-- Nieuwe sectie voor voorgestelde route per eiland -->
+        <div class="mt-6 text-center">
+            <button id="generateRouteBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full transition duration-300">
+                ✨ Genereer Route voor dit Eiland ✨
+            </button>
+            <div id="islandRouteOutput" class="llm-output-section mt-4" style="display: none;">
+                <h4 class="text-lg font-semibold text-blue-800 mb-2">Voorgestelde Route:</h4>
+                <div id="islandRouteContent"></div>
+                <div id="islandRouteSpinner" class="hidden text-center mt-2">
+                    <div class="loading-spinner"></div> Route laden...
+                </div>
+            </div>
+        </div>
 
         <!-- LLM gegenereerde vogeldetails sectie -->
         <div id="llmBirdDetails" class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200" style="display: none;">
@@ -211,6 +250,17 @@
             console.log('DOM Content Loaded. Kaart initialiseren...');
 
             const mapContainer = document.getElementById('map');
+            const generateGeneralTipsBtn = document.getElementById('generateGeneralTipsBtn');
+            const generalTipsOutput = document.getElementById('generalTipsOutput');
+            const generalTipsContent = document.getElementById('generalTipsContent');
+            const generalTipsSpinner = document.getElementById('generalTipsSpinner');
+
+            const generateRouteBtn = document.getElementById('generateRouteBtn');
+            const islandRouteOutput = document.getElementById('islandRouteOutput');
+            const islandRouteContent = document.getElementById('islandRouteContent');
+            const islandRouteSpinner = document.getElementById('islandRouteSpinner');
+
+            let currentIslandName = ''; // Om de naam van het huidige eiland op te slaan
 
             // Robuuste controle op de afmetingen van de kaartcontainer voordat Leaflet wordt geïnitialiseerd
             const checkMapContainerReady = () => {
@@ -350,7 +400,7 @@
                                 "Diverse Zangvogels", "Roofvogels (op doortrek)", "Zangers", "Vliegenvangers",
                                 "Uilen", "Kuifleeuwerik"
                             ],
-                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Kea+Eikenbos"
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Kea+Oak+Forest"
                         }
                     ];
 
@@ -371,6 +421,8 @@
                         cardDescription.textContent = location.description;
                         cardImage.src = location.locationImageUrl; // Locatieafbeelding instellen
                         cardImage.alt = location.name + " miniatuur";
+                        currentIslandName = location.name.split(':')[0].trim(); // Sla de eilandnaam op
+                        generateRouteBtn.textContent = `✨ Genereer Route voor ${currentIslandName} ✨`; // Update knoptekst
 
                         // Vorige lijsten wissen
                         cardKeyAreas.innerHTML = '';
@@ -378,6 +430,9 @@
                         llmBirdDetails.style.display = 'none'; // Verberg LLM-details wanneer nieuwe kaart opent
                         llmBirdDetailsContent.innerHTML = ''; // Wis vorige LLM-inhoud
                         birdDetailImage.src = ''; // Wis vorige vogelafbeelding
+                        islandRouteOutput.style.display = 'none'; // Verberg eilandroute output
+                        islandRouteContent.innerHTML = ''; // Wis eilandroute inhoud
+
 
                         // Belangrijkste vogelspotgebieden vullen
                         location.keyAreas.forEach(area => {
@@ -405,6 +460,8 @@
                         llmBirdDetails.style.display = 'none'; // Zorg ervoor dat LLM-details verborgen zijn bij sluiten
                         llmBirdDetailsContent.innerHTML = ''; // Wis LLM-inhoud
                         birdDetailImage.src = ''; // Wis vogelafbeelding bij sluiten
+                        islandRouteOutput.style.display = 'none'; // Verberg eilandroute output
+                        islandRouteContent.innerHTML = ''; // Wis eilandroute inhoud
                     }
 
                     // ✨ Gemini API Integratie: Haal vogeldetails op van LLM ✨
@@ -469,6 +526,131 @@
                             }
                         }
                     }
+
+                    // ✨ Gemini API Integratie: Genereer Algemene Vogelspot Tips ✨
+                    generateGeneralTipsBtn.addEventListener('click', async () => {
+                        generalTipsOutput.style.display = 'block';
+                        generalTipsContent.innerHTML = '';
+                        generalTipsSpinner.classList.remove('hidden');
+
+                        let chatHistory = [];
+                        const prompt = `Genereer 3-4 beknopte algemene tips voor vogelspotten op de Cycladen, gericht op de beste tijd, uitrusting en gedrag. Houd het in het Nederlands.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        let retries = 0;
+                        const maxRetries = 3;
+                        const baseDelay = 1000;
+
+                        while (retries < maxRetries) {
+                            try {
+                                const response = await fetch(apiUrl, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload)
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`HTTP fout! status: ${response.status}`);
+                                }
+
+                                const result = await response.json();
+
+                                if (result.candidates && result.candidates.length > 0 &&
+                                    result.candidates[0].content && result.candidates[0].content.parts &&
+                                    result.candidates[0].content.parts.length > 0) {
+                                    const text = result.candidates[0].content.parts[0].text;
+                                    generalTipsContent.innerHTML = text.replace(/\n/g, '<br>'); // Vervang nieuwe regels door <br>
+                                    generalTipsSpinner.classList.add('hidden');
+                                    return;
+                                } else {
+                                    console.error("LLM-antwoordstructuur onverwacht:", result);
+                                    generalTipsContent.innerHTML = "Kon algemene tips niet ophalen. Probeer het opnieuw.";
+                                    generalTipsSpinner.classList.add('hidden');
+                                    return;
+                                }
+                            } catch (error) {
+                                console.error("Fout bij het ophalen van algemene tips:", error);
+                                retries++;
+                                if (retries < maxRetries) {
+                                    const delay = baseDelay * Math.pow(2, retries - 1);
+                                    console.log(`Opnieuw proberen over ${delay / 1000} seconden... (Poging ${retries + 1}/${maxRetries})`);
+                                    await new Promise(resolve => setTimeout(resolve, delay));
+                                } else {
+                                    generalTipsContent.innerHTML = `Mislukt om algemene tips op te halen vanwege een authenticatiefout (Status 401). Zorg ervoor dat uw API-sleutel geldig is.`;
+                                    generalTipsSpinner.classList.add('hidden');
+                                }
+                            }
+                        }
+                    });
+
+                    // ✨ Gemini API Integratie: Genereer Voorgestelde Vogelspotroute per Eiland ✨
+                    generateRouteBtn.addEventListener('click', async () => {
+                        if (!currentIslandName) {
+                            islandRouteOutput.style.display = 'block';
+                            islandRouteContent.innerHTML = "Selecteer eerst een eiland op de kaart om een route te genereren.";
+                            return;
+                        }
+
+                        islandRouteOutput.style.display = 'block';
+                        islandRouteContent.innerHTML = '';
+                        islandRouteSpinner.classList.remove('hidden');
+
+                        let chatHistory = [];
+                        const prompt = `Genereer een beknopte voorgestelde vogelspotroute of checklist voor het eiland ${currentIslandName} op de Cycladen. Noem 2-3 specifieke locaties of soorten die daar te vinden zijn. Houd het in het Nederlands.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        let retries = 0;
+                        const maxRetries = 3;
+                        const baseDelay = 1000;
+
+                        while (retries < maxRetries) {
+                            try {
+                                const response = await fetch(apiUrl, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload)
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`HTTP fout! status: ${response.status}`);
+                                }
+
+                                const result = await response.json();
+
+                                if (result.candidates && result.candidates.length > 0 &&
+                                    result.candidates[0].content && result.candidates[0].content.parts &&
+                                    result.candidates[0].content.parts.length > 0) {
+                                    const text = result.candidates[0].content.parts[0].text;
+                                    islandRouteContent.innerHTML = text.replace(/\n/g, '<br>'); // Vervang nieuwe regels door <br>
+                                    islandRouteSpinner.classList.add('hidden');
+                                    return;
+                                } else {
+                                    console.error("LLM-antwoordstructuur onverwacht:", result);
+                                    islandRouteContent.innerHTML = "Kon route niet ophalen. Probeer het opnieuw.";
+                                    islandRouteSpinner.classList.add('hidden');
+                                    return;
+                                }
+                            } catch (error) {
+                                console.error("Fout bij het ophalen van eilandroute:", error);
+                                retries++;
+                                if (retries < maxRetries) {
+                                    const delay = baseDelay * Math.pow(2, retries - 1);
+                                    console.log(`Opnieuw proberen over ${delay / 1000} seconden... (Poging ${retries + 1}/${maxRetries})`);
+                                    await new Promise(resolve => setTimeout(resolve, delay));
+                                } else {
+                                    islandRouteContent.innerHTML = `Mislukt om route op te halen vanwege een authenticatiefout (Status 401). Zorg ervoor dat uw API-sleutel geldig is.`;
+                                    islandRouteSpinner.classList.add('hidden');
+                                }
+                            }
+                        }
+                    });
+
 
                     // Voeg markeringen toe voor elke locatie, met behulp van het aangepaste pictogram
                     locations.forEach(location => {
