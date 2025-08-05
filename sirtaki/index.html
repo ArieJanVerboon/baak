@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master the Sirtaki: Complete Learning Journey with Video & Music</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Audio Element -->
+    <audio id="practice-audio" preload="auto" muted>
+        <source src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/ba2ea006b9a570db4e3e1851bcd7a69f/8e484f25-9453-478e-a05c-e413e6cf0314/762c4fab.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Main Video Element -->
+    <video id="main-video" preload="metadata" style="display: none;">
+        <source src="#" type="video/mp4">
+        <track kind="captions" src="#" srclang="en" label="English" default>
+        <track kind="captions" src="#" srclang="el" label="Greek">
+        <track kind="descriptions" src="#" srclang="en" label="Audio Descriptions">
+        Your browser does not support the video element.
+    </video>
+
+    <!-- Header Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Master the Sirtaki</h1>
+                <p class="hero-subtitle">Complete Learning Journey with Video Tutorials & Music Practice</p>
+                <div class="greek-pattern"></div>
+                <p class="hero-description">Learn the iconic Greek dance from Zorba the Greek with professional video instruction and synchronized music practice</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Video Learning Section -->
+    <section class="video-learning-section">
+        <div class="container">
+            <div class="video-player-container">
+                <div class="video-header">
+                    <h3>🎬 Professional Video Instruction</h3>
+                    <div class="video-info">
+                        <span class="video-duration" id="video-duration">12:30</span>
+                        <span class="video-instructor">Professional Greek Dance Teacher</span>
+                    </div>
+                </div>
+                
+                <div class="main-video-wrapper">
+                    <div class="video-container" id="main-video-container" style="position: relative; height: 400px;">
+                        <div class="video-placeholder">
+                            <div class="video-placeholder-content">
+                                <div class="play-button-large" id="video-play-large">
+                                    <span class="play-icon-large">▶️</span>
+                                </div>
+                                <h4>Complete Sirtaki Tutorial for Men</h4>
+                                <p>Professional instruction covering all aspects of Sirtaki dancing</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Video Annotations Overlay -->
+                        <div class="video-annotations" id="video-annotations"></div>
+                        
+                        <!-- Video Progress Overlay -->
+                        <div class="video-overlay-controls">
+                            <div class="video-progress-overlay">
+                                <div class="chapter-markers" id="chapter-markers"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-controls">
+                        <div class="video-primary-controls">
+                            <button class="btn btn--primary video-btn" id="video-play-pause">
+                                <span class="video-play-icon">▶️</span>
+                                <span class="btn-text">Play Video</span>
+                            </button>
+                            
+                            <div class="video-time-display">
+                                <span id="video-current-time">0:00</span>
+                                <span class="time-separator">/</span>
+                                <span id="video-total-time">12:30</span>
+                            </div>
+                            
+                            <div class="video-speed-control">
+                                <label class="form-label">Speed:</label>
+                                <select id="video-speed-selector" class="form-control">
+                                    <option value="0.25">0.25x</option>
+                                    <option value="0.5">0.5x</option>
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1" selected>1x</option>
+                                    <option value="1.25">1.25x</option>
+                                </select>
+                            </div>
+                            
+                            <div class="video-view-controls">
+                                <button class="btn btn--outline btn--sm" id="pip-toggle">Picture-in-Picture</button>
+                                <button class="btn btn--outline btn--sm" id="fullscreen-toggle">Full Screen</button>
+                            </div>
+                        </div>
+                        
+                        <div class="video-progress-controls">
+                            <input type="range" id="video-progress-slider" min="0" max="750" value="0" class="form-control video-progress-slider">
+                        </div>
+                        
+                        <div class="sync-controls">
+                            <div class="sync-options">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="sync-video-audio">
+                                    <span class="checkmark"></span>
+                                    Sync Video & Audio
+                                </label>
+                                <button class="btn btn--secondary btn--sm" id="video-loop-toggle">Loop Section</button>
+                                <button class="btn btn--secondary btn--sm" id="bookmark-moment">Bookmark</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chapter Navigation -->
+                <div class="chapter-navigation">
+                    <h4>Video Chapters</h4>
+                    <div class="chapter-list" id="chapter-list">
+                        <div class="chapter-item active" data-start="0" data-end="90">
+                            <div class="chapter-number">1</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Introduction & History</div>
+                                <div class="chapter-duration">0:00 - 1:30</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="90" data-end="240">
+                            <div class="chapter-number">2</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Basic Hasapiko Steps</div>
+                                <div class="chapter-duration">1:30 - 4:00</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="240" data-end="330">
+                            <div class="chapter-number">3</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Body Posture & Form</div>
+                                <div class="chapter-duration">4:00 - 5:30</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="330" data-end="420">
+                            <div class="chapter-number">4</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Tempo Transitions</div>
+                                <div class="chapter-duration">5:30 - 7:00</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="420" data-end="570">
+                            <div class="chapter-number">5</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Hasaposerviko Kicks</div>
+                                <div class="chapter-duration">7:00 - 9:30</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="570" data-end="660">
+                            <div class="chapter-number">6</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Group Coordination</div>
+                                <div class="chapter-duration">9:30 - 11:00</div>
+                            </div>
+                        </div>
+                        <div class="chapter-item" data-start="660" data-end="750">
+                            <div class="chapter-number">7</div>
+                            <div class="chapter-info">
+                                <div class="chapter-title">Full Sequence</div>
+                                <div class="chapter-duration">11:00 - 12:30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supplementary Videos -->
+                <div class="supplementary-videos">
+                    <h4>Multi-Angle Views</h4>
+                    <div class="video-grid">
+                        <div class="video-thumbnail" data-video="footwork">
+                            <div class="thumbnail-image">📹</div>
+                            <div class="thumbnail-info">
+                                <div class="thumbnail-title">Footwork Close-up</div>
+                                <div class="thumbnail-duration">3:45</div>
+                            </div>
+                        </div>
+                        <div class="video-thumbnail" data-video="side-view">
+                            <div class="thumbnail-image">📹</div>
+                            <div class="thumbnail-info">
+                                <div class="thumbnail-title">Side View Demo</div>
+                                <div class="thumbnail-duration">4:20</div>
+                            </div>
+                        </div>
+                        <div class="video-thumbnail" data-video="group-formation">
+                            <div class="thumbnail-image">📹</div>
+                            <div class="thumbnail-info">
+                                <div class="thumbnail-title">Group Formation</div>
+                                <div class="thumbnail-duration">2:50</div>
+                            </div>
+                        </div>
+                        <div class="video-thumbnail" data-video="common-mistakes">
+                            <div class="thumbnail-image">⚠️</div>
+                            <div class="thumbnail-info">
+                                <div class="thumbnail-title">Common Mistakes</div>
+                                <div class="thumbnail-duration">3:15</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Player -->
+    <section class="music-player-section">
+        <div class="container">
+            <div class="music-player">
+                <div class="player-header">
+                    <h3>🎵 Sirtaki Practice Track</h3>
+                    <div class="tempo-display" id="tempo-display">60 BPM - Slow Hasapiko</div>
+                </div>
+                
+                <div class="player-controls">
+                    <button class="btn btn--primary player-btn" id="play-pause-btn">
+                        <span class="play-icon">▶️</span>
+                        <span class="btn-text">Play</span>
+                    </button>
+                    
+                    <div class="time-display">
+                        <span id="current-time">0:00</span>
+                        <span class="time-separator">/</span>
+                        <span id="total-time">2:00</span>
+                    </div>
+                    
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <input type="range" id="volume-slider" min="0" max="100" value="70" class="form-control volume-slider">
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="scrub-bar">
+                        <input type="range" id="progress-slider" min="0" max="120" value="0" class="form-control progress-slider">
+                        <div class="phase-markers">
+                            <div class="phase-marker slow" style="left: 0%;" data-phase="slow">
+                                <div class="marker-dot"></div>
+                                <div class="marker-label">Slow</div>
+                            </div>
+                            <div class="phase-marker medium" style="left: 33.33%;" data-phase="medium">
+                                <div class="marker-dot"></div>
+                                <div class="marker-label">Medium</div>
+                            </div>
+                            <div class="phase-marker fast" style="left: 66.67%;" data-phase="fast">
+                                <div class="marker-dot"></div>
+                                <div class="marker-label">Fast</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="beat-section">
+                    <div class="metronome-visual" id="metronome">
+                        <div class="beat-indicator" id="beat-indicator"></div>
+                        <div class="beat-counter">
+                            <span class="beat-number" id="beat-number">1</span>
+                            <span class="measure-info">of 4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="practice-options">
+                        <div class="tempo-controls">
+                            <label class="form-label">Practice Speed:</label>
+                            <select id="speed-selector" class="form-control">
+                                <option value="0.5">0.5x (Half Speed)</option>
+                                <option value="0.75">0.75x (Slow)</option>
+                                <option value="1" selected>1x (Normal)</option>
+                                <option value="1.25">1.25x (Fast)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="loop-controls">
+                            <label class="form-label">Loop:</label>
+                            <select id="loop-selector" class="form-control">
+                                <option value="none">No Loop</option>
+                                <option value="4beats">4 beats</option>
+                                <option value="8beats">8 beats</option>
+                                <option value="16beats">16 beats</option>
+                                <option value="section">Current Section</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn--secondary" id="metronome-only">Metronome Only</button>
+                    </div>
+                </div>
+
+                <!-- Follow Along Mode -->
+                <div class="follow-along-section">
+                    <h4>🎭 Follow Along Mode</h4>
+                    <div class="follow-along-controls">
+                        <button class="btn btn--primary" id="follow-along-btn">Start Follow Along</button>
+                        <div class="follow-along-options">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="show-video-overlay">
+                                <span class="checkmark"></span>
+                                Show Video Overlay
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="sync-timing">
+                                <span class="checkmark"></span>
+                                Sync Video with Audio Timing
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#introduction" class="nav-link">Introduction</a></li>
+                <li><a href="#video-basics" class="nav-link">Video Basics</a></li>
+                <li><a href="#stages" class="nav-link">Learning Stages</a></li>
+                <li><a href="#coordination" class="nav-link">Two-Person</a></li>
+                <li><a href="#culture-videos" class="nav-link">Cultural Videos</a></li>
+                <li><a href="#practice" class="nav-link">Practice</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="intro-section">
+        <div class="container">
+            <div class="intro-content">
+                <h2>The Story of Sirtaki</h2>
+                <div class="intro-grid">
+                    <div class="intro-text">
+                        <p>The Sirtaki was created by composer <strong>Mikis Theodorakis</strong> for the 1964 film "Zorba the Greek." This captivating dance combines two traditional Greek dances:</p>
+                        <ul class="dance-components">
+                            <li><span class="component-name">Hasapiko</span> - The slow, graceful beginning (0-40 seconds)</li>
+                            <li><span class="component-name">Hasaposerviko</span> - The fast, energetic finale (80-120 seconds)</li>
+                        </ul>
+                        <p>What makes Sirtaki unique is its <em>progressive tempo</em> - starting slow at 60 BPM and building to an exhilarating 130 BPM crescendo that captures the spirit of Greek celebration.</p>
+                        
+                        <div class="video-intro-cta">
+                            <button class="btn btn--primary video-intro-btn" data-chapter="0">
+                                🎬 Watch Introduction Video
+                            </button>
+                        </div>
+                    </div>
+                    <div class="intro-image">
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1754384401/pplx_project_search_images/4a636f0aa3a26fe53d551a7ed5ee82a7175a3e.jpg" alt="Group performing Sirtaki in line formation" class="intro-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Basics Section -->
+    <section id="video-basics" class="video-basics-section">
+        <div class="container">
+            <h2>Video Learning Fundamentals</h2>
+            <div class="video-basics-grid">
+                <div class="video-basic-item" data-chapter="2">
+                    <div class="video-basic-icon">🕺</div>
+                    <h3>Body Posture & Form</h3>
+                    <p>Watch detailed demonstrations of proper stance, hand positioning, and body alignment.</p>
+                    <button class="btn btn--outline btn--sm chapter-btn">Watch Video</button>
+                </div>
+                <div class="video-basic-item" data-chapter="1">
+                    <div class="video-basic-icon">👟</div>
+                    <h3>Footwork Fundamentals</h3>
+                    <p>Close-up view of foot placement, weight transfer, and step sequences.</p>
+                    <button class="btn btn--outline btn--sm chapter-btn">Watch Video</button>
+                </div>
+                <div class="video-basic-item" data-chapter="5">
+                    <div class="video-basic-icon">🤝</div>
+                    <h3>Group Coordination</h3>
+                    <p>Learn how to dance with others and maintain formation.</p>
+                    <button class="btn btn--outline btn--sm chapter-btn">Watch Video</button>
+                </div>
+                <div class="video-basic-item" data-chapter="3">
+                    <div class="video-basic-icon">⚡</div>
+                    <h3>Tempo Transitions</h3>
+                    <p>Master the progressive speed changes that define Sirtaki.</p>
+                    <button class="btn btn--outline btn--sm chapter-btn">Watch Video</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Stages Section -->
+    <section id="stages" class="stages-section">
+        <div class="container">
+            <h2>Step-by-Step Video Learning Progression</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <!-- Stage 1 -->
+            <div class="stage-card" data-stage="1">
+                <div class="stage-header">
+                    <h3>Stage 1: Basic Steps (Slow Hasapiko)</h3>
+                    <div class="stage-badges">
+                        <span class="tempo-badge">60 BPM</span>
+                        <span class="time-badge">0-40 seconds</span>
+                        <span class="video-badge">Video Chapter 2</span>
+                    </div>
+                </div>
+                <div class="stage-content">
+                    <div class="steps-list">
+                        <div class="step-item" data-step="1" data-beat="1">
+                            <div class="step-number">1</div>
+                            <div class="step-description">
+                                <strong>Step right foot sideways to the right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing strong">Beat 1 (STRONG)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="2" data-beat="2">
+                            <div class="step-number">2</div>
+                            <div class="step-description">
+                                <strong>Step left foot behind right foot</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ↗</div>
+                                    <div class="beat-timing weak">Beat 2 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="3" data-beat="3">
+                            <div class="step-number">3</div>
+                            <div class="step-description">
+                                <strong>Step right foot sideways to the right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing medium">Beat 3 (MEDIUM)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="4" data-beat="4">
+                            <div class="step-number">4</div>
+                            <div class="step-description">
+                                <strong>Close left foot to right (no weight)</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ⌐</div>
+                                    <div class="beat-timing weak">Beat 4 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stage-visual">
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1754384401/pplx_project_search_images/6c03753d7e11a4d7ba1b5463a85634395a44bd74.jpg" alt="Hasapiko dance demonstration" class="stage-img">
+                    </div>
+                </div>
+                <div class="stage-actions">
+                    <button class="btn btn--primary practice-with-video-btn" data-stage="1" data-chapter="1" data-audio-start="0">
+                        🎬 Practice with Video & Music
+                    </button>
+                    <button class="btn btn--secondary practice-btn" data-stage="1">Practice Steps Only</button>
+                    <button class="btn btn--outline chapter-video-btn" data-chapter="1">Watch Chapter Video</button>
+                </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="stage-card" data-stage="2">
+                <div class="stage-header">
+                    <h3>Stage 2: Transition & Variations</h3>
+                    <div class="stage-badges">
+                        <span class="tempo-badge tempo-medium">60-100 BPM</span>
+                        <span class="time-badge">40-80 seconds</span>
+                        <span class="video-badge">Video Chapter 4</span>
+                    </div>
+                </div>
+                <div class="stage-content">
+                    <div class="steps-list">
+                        <div class="step-item" data-step="1" data-beat="1">
+                            <div class="step-number">1</div>
+                            <div class="step-description">
+                                <strong>Step right foot sideways</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing strong">Beat 1 (STRONG)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="2" data-beat="2">
+                            <div class="step-number">2</div>
+                            <div class="step-description">
+                                <strong>Step left foot behind right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ↗</div>
+                                    <div class="beat-timing weak">Beat 2 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="3" data-beat="3">
+                            <div class="step-number">3</div>
+                            <div class="step-description">
+                                <strong>Step right foot sideways</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing medium">Beat 3 (MEDIUM)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="4" data-beat="4">
+                            <div class="step-number">4</div>
+                            <div class="step-description">
+                                <strong>Kick left foot up (bent knee)</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ↑</div>
+                                    <div class="beat-timing weak">Beat 4 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-actions">
+                    <button class="btn btn--primary practice-with-video-btn" data-stage="2" data-chapter="3" data-audio-start="40">
+                        🎬 Practice with Video & Music
+                    </button>
+                    <button class="btn btn--secondary practice-btn" data-stage="2">Practice Steps Only</button>
+                    <button class="btn btn--outline chapter-video-btn" data-chapter="3">Watch Chapter Video</button>
+                </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="stage-card" data-stage="3">
+                <div class="stage-header">
+                    <h3>Stage 3: Fast Hasaposerviko</h3>
+                    <div class="stage-badges">
+                        <span class="tempo-badge tempo-fast">100-130 BPM</span>
+                        <span class="time-badge">80-120 seconds</span>
+                        <span class="video-badge">Video Chapter 5</span>
+                    </div>
+                </div>
+                <div class="stage-content">
+                    <div class="steps-list">
+                        <div class="step-item" data-step="1" data-beat="1">
+                            <div class="step-number">1</div>
+                            <div class="step-description">
+                                <strong>Grapevine right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ↗</div>
+                                    <div class="beat-timing strong">Beat 1 (STRONG)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="2" data-beat="2">
+                            <div class="step-number">2</div>
+                            <div class="step-description">
+                                <strong>Step right to right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing weak">Beat 2 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="3" data-beat="3">
+                            <div class="step-number">3</div>
+                            <div class="step-description">
+                                <strong>Step left behind</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">L ↗</div>
+                                    <div class="beat-timing medium">Beat 3 (MEDIUM)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="4" data-beat="4">
+                            <div class="step-number">4</div>
+                            <div class="step-description">
+                                <strong>Step right to right</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R →</div>
+                                    <div class="beat-timing weak">Beat 4 (weak)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="5" data-beat="1">
+                            <div class="step-number">5</div>
+                            <div class="step-description">
+                                <strong>Hop and lift left leg</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R-L ↗</div>
+                                    <div class="beat-timing strong">Beat 1 (STRONG)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-actions">
+                    <button class="btn btn--primary practice-with-video-btn" data-stage="3" data-chapter="4" data-audio-start="80">
+                        🎬 Practice with Video & Music
+                    </button>
+                    <button class="btn btn--secondary practice-btn" data-stage="3">Practice Steps Only</button>
+                    <button class="btn btn--outline chapter-video-btn" data-chapter="4">Watch Chapter Video</button>
+                </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="stage-card" data-stage="4">
+                <div class="stage-header">
+                    <h3>Stage 4: Full Sirtaki Sequence</h3>
+                    <div class="stage-badges">
+                        <span class="tempo-badge tempo-progressive">Progressive 60-130 BPM</span>
+                        <span class="time-badge">Full 2 minutes</span>
+                        <span class="video-badge">Video Chapter 6</span>
+                    </div>
+                </div>
+                <div class="stage-content">
+                    <div class="steps-list">
+                        <div class="step-item" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-description">
+                                <strong>Start with Stage 1 steps (slow)</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R-L →</div>
+                                    <div class="beat-timing">0-40 seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-description">
+                                <strong>Transition to Stage 2 variations</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R-L ↑</div>
+                                    <div class="beat-timing">40-80 seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-description">
+                                <strong>Add Stage 3 advanced moves</strong>
+                                <div class="step-details">
+                                    <div class="foot-indicator">R-L ↗</div>
+                                    <div class="beat-timing">80-120 seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-actions">
+                    <button class="btn btn--primary practice-with-video-btn" data-stage="4" data-chapter="6" data-audio-start="0">
+                        🎬 Practice Full Video Sequence
+                    </button>
+                    <button class="btn btn--secondary practice-btn" data-stage="4">Practice Steps Only</button>
+                    <button class="btn btn--outline chapter-video-btn" data-chapter="6">Watch Full Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two-Person Coordination -->
+    <section id="coordination" class="coordination-section">
+        <div class="container">
+            <h2>Two-Person Video Coordination</h2>
+            <div class="coordination-video-cta">
+                <button class="btn btn--primary" id="group-coordination-video">
+                    🎬 Watch Group Coordination Video
+                </button>
+            </div>
+            <div class="coordination-grid">
+                <div class="coordination-item">
+                    <h3>🤝 Video Synchronization Tips</h3>
+                    <ul>
+                        <li>Watch the video together before practicing</li>
+                        <li>Use slow-motion for learning difficult sections</li>
+                        <li>Practice with video timing markers</li>
+                        <li>Use picture-in-picture mode while moving</li>
+                    </ul>
+                </div>
+                <div class="coordination-item">
+                    <h3>👥 Video Learning Roles</h3>
+                    <ul>
+                        <li>One partner controls video playback</li>
+                        <li>Both watch the same chapter sections</li>
+                        <li>Use loop mode for repetitive practice</li>
+                        <li>Switch video control during sessions</li>
+                    </ul>
+                </div>
+                <div class="coordination-item">
+                    <h3>🔗 Formation Practice</h3>
+                    <ul>
+                        <li>Watch aerial view demonstrations</li>
+                        <li>Learn proper spacing from video</li>
+                        <li>Practice shoulder connection technique</li>
+                        <li>Follow video tempo progression together</li>
+                    </ul>
+                </div>
+                <div class="coordination-item">
+                    <h3>💬 Video Communication</h3>
+                    <ul>
+                        <li>Pause video to discuss techniques</li>
+                        <li>Use annotations for key moments</li>
+                        <li>Bookmark important sections</li>
+                        <li>Practice with synchronized video and audio</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="formation-demo">
+                <img src="https://pplx-res.cloudinary.com/image/upload/v1754384402/pplx_project_search_images/60abd3f4d92f39446e7ee0d7a154fd34494f4815.jpg" alt="Sirtaki formation demonstration" class="formation-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Cultural Context Videos -->
+    <section id="culture-videos" class="culture-videos-section">
+        <div class="container">
+            <h2>Cultural Heritage Videos</h2>
+            <div class="culture-videos-grid">
+                <div class="culture-video-item" data-video="origins">
+                    <div class="culture-video-thumbnail">🎬</div>
+                    <div class="culture-video-info">
+                        <h3>Sirtaki Origins</h3>
+                        <p>History of the dance creation for Zorba film</p>
+                        <div class="culture-video-duration">2:30</div>
+                        <button class="btn btn--outline btn--sm">Watch Video</button>
+                    </div>
+                </div>
+                <div class="culture-video-item" data-video="weddings">
+                    <div class="culture-video-thumbnail">💒</div>
+                    <div class="culture-video-info">
+                        <h3>Greek Wedding Traditions</h3>
+                        <p>How Sirtaki is used in celebrations</p>
+                        <div class="culture-video-duration">3:00</div>
+                        <button class="btn btn--outline btn--sm">Watch Video</button>
+                    </div>
+                </div>
+                <div class="culture-video-item" data-video="variations">
+                    <div class="culture-video-thumbnail">🗺️</div>
+                    <div class="culture-video-info">
+                        <h3>Regional Variations</h3>
+                        <p>Different styles across Greece</p>
+                        <div class="culture-video-duration">2:45</div>
+                        <button class="btn btn--outline btn--sm">Watch Video</button>
+                    </div>
+                </div>
+                <div class="culture-video-item" data-video="music-connection">
+                    <div class="culture-video-thumbnail">🎵</div>
+                    <div class="culture-video-info">
+                        <h3>Music and Dance Connection</h3>
+                        <p>Understanding Greek rhythm and timing</p>
+                        <div class="culture-video-duration">3:30</div>
+                        <button class="btn btn--outline btn--sm">Watch Video</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="culture-image">
+                <img src="https://ppl-res.cloudinary.com/image/upload/v1751961602/pplx_project_search_images/aea32577970d6c694602117517c785890afb90db.jpg" alt="Traditional Greek dancers" class="culture-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Section -->
+    <section id="practice" class="practice-section">
+        <div class="container">
+            <h2>Interactive Video Practice</h2>
+            
+            <!-- Enhanced Practice Controls -->
+            <div class="video-practice-controls">
+                <h3>Video Practice Settings</h3>
+                <div class="video-practice-grid">
+                    <div class="practice-option">
+                        <label class="form-label">Video Angle:</label>
+                        <select id="practice-angle-selector" class="form-control">
+                            <option value="front">Front View</option>
+                            <option value="side">Side View</option>
+                            <option value="feet">Footwork Close-up</option>
+                            <option value="aerial">Group Formation</option>
+                        </select>
+                    </div>
+                    <div class="practice-option">
+                        <label class="form-label">Practice Speed:</label>
+                        <select id="practice-speed-selector" class="form-control">
+                            <option value="0.25">0.25x (Very Slow)</option>
+                            <option value="0.5">0.5x (Slow)</option>
+                            <option value="0.75">0.75x (Medium)</option>
+                            <option value="1" selected>1x (Normal)</option>
+                        </select>
+                    </div>
+                    <div class="practice-option">
+                        <label class="form-label">Loop Section:</label>
+                        <select id="practice-loop-selector" class="form-control">
+                            <option value="none">No Loop</option>
+                            <option value="basic-step">Basic Step Drill</option>
+                            <option value="kick-practice">Kick Practice</option>
+                            <option value="transition">Transition Work</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virtual Dance Floor with Video -->
+            <div class="video-dance-floor">
+                <h3>Video Practice Floor</h3>
+                <div class="video-floor-container">
+                    <div class="practice-video-preview">
+                        <div class="mini-video-container">
+                            <div class="mini-video-placeholder">
+                                <span>📹</span>
+                                <div>Practice Video</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floor-grid">
+                        <div class="dancer-position" id="dancer1">
+                            <div class="dancer-avatar">👤</div>
+                            <div class="dancer-label">Dancer 1</div>
+                            <div class="beat-pulse" id="beat-pulse-1"></div>
+                        </div>
+                        <div class="dancer-position" id="dancer2">
+                            <div class="dancer-avatar">👤</div>
+                            <div class="dancer-label">Dancer 2</div>
+                            <div class="beat-pulse" id="beat-pulse-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-floor-controls">
+                    <button class="btn btn--primary" id="start-video-practice">Start Video Practice</button>
+                    <button class="btn btn--secondary" id="stop-video-practice">Stop</button>
+                    <button class="btn btn--outline" id="toggle-video-overlay">Toggle Video Overlay</button>
+                    <div class="practice-timer">
+                        <span>Session: </span>
+                        <span id="practice-duration">0:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Learning Tips -->
+            <div class="video-tips-section">
+                <h3>🎬 Video Learning Tips</h3>
+                <div class="video-tips-list">
+                    <div class="video-tip-item">
+                        <strong>Use slow motion for learning</strong>
+                        <p>Start with 0.25x speed to understand each movement clearly.</p>
+                    </div>
+                    <div class="video-tip-item">
+                        <strong>Watch multiple angles</strong>
+                        <p>Switch between front, side, and close-up views for complete understanding.</p>
+                    </div>
+                    <div class="video-tip-item">
+                        <strong>Loop difficult sections</strong>
+                        <p>Repeat challenging moves until they become natural.</p>
+                    </div>
+                    <div class="video-tip-item">
+                        <strong>Sync with music timing</strong>
+                        <p>Use the synchronized video and audio for authentic practice.</p>
+                    </div>
+                    <div class="video-tip-item">
+                        <strong>Bookmark key moments</strong>
+                        <p>Save important techniques for quick reference.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Self Assessment with Video -->
+            <div class="video-assessment-section">
+                <h3>Video Learning Assessment</h3>
+                <div class="video-checklist">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="video-sync">
+                        <span class="checkmark"></span>
+                        Steps synchronized with video demonstrations
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="angle-understanding">
+                        <span class="checkmark"></span>
+                        Comfortable with multiple camera angles
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="speed-progression">
+                        <span class="checkmark"></span>
+                        Can follow video at different speeds
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="video-audio-sync">
+                        <span class="checkmark"></span>
+                        Synchronized movement with video and audio
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="cultural-understanding">
+                        <span class="checkmark"></span>
+                        Understands cultural context from videos
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Sirtaki Learning Journey with Video & Music. Celebrating Greek Dance Culture.</p>
+                <div class="social-share">
+                    <button class="btn btn--outline btn--sm share-btn" data-platform="twitter">Share Progress</button>
+                    <button class="btn btn--outline btn--sm" onclick="window.print()">Print Guide</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal hidden">
+        <div class="modal-content video-modal-content">
+            <div class="modal-header">
+                <h3 id="video-modal-title">Video Player</h3>
+                <button class="modal-close" id="video-modal-close">&times;</button>
+            </div>
+            <div class="modal-body video-modal-body">
+                <div class="modal-video-container">
+                    <div class="modal-video-placeholder">
+                        <div class="modal-video-content">
+                            <div class="play-button-modal">▶️</div>
+                            <div id="modal-video-description">Video content will play here</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-video-controls">
+                    <button class="btn btn--primary" id="modal-video-play">Play</button>
+                    <button class="btn btn--secondary" id="modal-video-pause">Pause</button>
+                    <input type="range" id="modal-video-progress" min="0" max="100" value="0" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎉 Great Progress!</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="progress-message">You've completed another stage of your Sirtaki journey!</p>
+                <div class="celebration-animation">🎊</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookmarks Panel -->
+    <div id="bookmarks-panel" class="bookmarks-panel hidden">
+        <div class="bookmarks-header">
+            <h4>📚 Video Bookmarks</h4>
+            <button class="bookmarks-close">&times;</button>
+        </div>
+        <div class="bookmarks-list" id="bookmarks-list">
+            <div class="bookmark-empty">No bookmarks yet. Click "Bookmark" while watching videos to save key moments!</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
