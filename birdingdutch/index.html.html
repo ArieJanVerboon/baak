@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vogelspotkaart van de Cycladen</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""/>
+    <style>
+        /* Zorg ervoor dat html en body de volledige hoogte innemen */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0; /* Standaard opvulling resetten */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Griekse Vlag Kleuren: Blauwe body achtergrond, witte tekst */
+            background-color: #0050A4; /* Een blauwtint vergelijkbaar met de Griekse vlag */
+            color: #FFFFFF; /* Witte tekst voor contrast */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh; /* Zorg ervoor dat het de viewport vult */
+            padding: 1rem; /* Opvulling behouden voor algemene lay-out */
+            box-sizing: border-box; /* Opvulling meenemen in hoogteberekening */
+        }
+        #map {
+            height: 400px; /* Standaard hoogte */
+            width: 100%;
+            max-width: 900px;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            z-index: 0; /* Zorg ervoor dat de kaart achter de kaarten ligt als ze overlappen */
+            /* Cruciale Leaflet container stijlen */
+            position: relative;
+            overflow: hidden;
+        }
+        .info-card {
+            background-color: #ffffff; /* Infokaart blijft wit voor leesbaarheid */
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            max-width: 900px;
+            width: 100%;
+            display: none; /* Standaard verborgen */
+            position: relative;
+            z-index: 10; /* Zorg ervoor dat de kaart boven de kaart ligt */
+            margin-bottom: 1.5rem;
+            color: #333; /* Zorg ervoor dat de tekst in de kaart donker is */
+        }
+        .info-card.active {
+            display: block;
+        }
+        .section-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #2c5282; /* Donkerder blauw voor titels in de kaart */
+            margin-bottom: 1rem;
+        }
+        .bird-list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            cursor: pointer; /* Maak vogelnamen klikbaar */
+            transition: color 0.2s;
+            color: #333; /* Zorg ervoor dat de vogelnamen donker zijn */
+        }
+        .bird-list-item:hover {
+            color: #4a90e2; /* Markeer bij hover */
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s;
+        }
+        .close-button:hover {
+            color: #333;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .thumbnail-image {
+            width: 100%;
+            height: 180px; /* Vaste hoogte voor consistentie */
+            object-fit: cover; /* Bedek het gebied, bijsnijden indien nodig */
+            border-radius: 1rem; /* Afgeronde hoeken voor afbeeldingen */
+            margin-bottom: 1rem;
+            background-color: #e0e0e0; /* Plaatsaanduiding achtergrond */
+        }
+        .bird-detail-thumbnail {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            float: left; /* Links uitlijnen om tekst eromheen te laten lopen */
+            margin-bottom: 0.5rem; /* Ruimte onder afbeelding */
+        }
+        .llm-details-container::after {
+            content: "";
+            display: table;
+            clear: both; /* Float opheffen */
+        }
+        .header-image {
+            width: 100px; /* Pas de grootte aan indien nodig */
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%; /* Maak het rond */
+            margin: 0 auto 1rem; /* Centreren en ruimte toevoegen */
+            display: block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Responsieve aanpassingen voor kaarthoogte */
+        @media (min-width: 640px) {
+            #map {
+                height: 500px;
+            }
+        }
+        @media (min-width: 768px) {
+            #map {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="w-full max-w-4xl text-center mb-8">
+        <!-- Vervangen van emoji's door Milos Wetlands afbeelding -->
+        <img src="https://placehold.co/100x100/0050A4/FFFFFF?text=Milos+Wetlands" alt="Milos Wetlands Miniatuur" class="header-image">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+            Vogelspotplekken op de Cycladen
+        </h1>
+        <p class="text-lg text-white">Klik op de spelden om de beste vogelspotplekken te ontdekken!</p>
+    </header>
+
+    <!-- Kaart Container -->
+    <div id="map"></div>
+
+    <!-- Infokaart -->
+    <div id="infoCard" class="info-card">
+        <button class="close-button" onclick="hideInfoCard()">✖</button>
+        <img id="cardImage" class="thumbnail-image" alt="Locatie Miniatuur">
+        <h2 id="cardTitle" class="section-title"></h2>
+        <p id="cardDescription" class="text-gray-600 mb-4"></p>
+
+        <h3 class="text-xl font-semibold text-blue-700 mb-3">Belangrijkste Vogelspotgebieden:</h3>
+        <ul id="cardKeyAreas" class="list-none pl-0 mb-4 grid grid-cols-1 sm:grid-cols-2 gap-2"></ul>
+
+        <h3 class="text-xl font-semibold text-blue-700 mb-3">Opmerkelijke Soorten:</h3>
+        <ul id="cardNotableSpecies" class="list-none pl-0 grid grid-cols-1 sm:grid-cols-2 gap-2"></ul>
+
+        <!-- LLM gegenereerde vogeldetails sectie -->
+        <div id="llmBirdDetails" class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200" style="display: none;">
+            <h4 class="text-lg font-semibold text-blue-800 mb-2">✨ Vogeldetails ✨</h4>
+            <div class="llm-details-container">
+                <img id="birdDetailImage" class="bird-detail-thumbnail" alt="Vogel Miniatuur">
+                <div id="llmBirdDetailsContent" class="text-gray-700"></div>
+            </div>
+            <div id="llmLoadingSpinner" class="hidden text-center mt-2">
+                <div class="loading-spinner"></div> Details laden...
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full max-w-4xl text-center mt-auto text-gray-500 text-sm">
+        <p class="text-white">&copy; 2025 Vogelspotkaart Cycladen. Veel plezier met vogelspotten!</p>
+    </footer>
+
+    <!-- Leaflet JS - Deze moet geladen worden VOORDAT uw aangepaste script wordt uitgevoerd -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""></script>
+
+    <!-- Aangepast Script - Geplaatst na Leaflet JS om ervoor te zorgen dat L is gedefinieerd -->
+    <script>
+        // Stel het standaardpad in voor de markeerpictogrammen van Leaflet onmiddellijk nadat Leaflet is geladen
+        // Deze regel MOET worden uitgevoerd NADAT leaflet.js is geladen.
+        if (typeof L !== 'undefined') {
+            L.Icon.Default.prototype.options.imagePath = 'https://unpkg.com/leaflet@1.9.4/dist/images/';
+        } else {
+            console.error("Leaflet (L) is niet gedefinieerd onmiddellijk na het laden van het script. Kaart wordt mogelijk niet correct weergegeven.");
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('DOM Content Loaded. Kaart initialiseren...');
+
+            const mapContainer = document.getElementById('map');
+
+            // Robuuste controle op de afmetingen van de kaartcontainer voordat Leaflet wordt geïnitialiseerd
+            const checkMapContainerReady = () => {
+                if (mapContainer && mapContainer.offsetWidth > 0 && mapContainer.offsetHeight > 0 && typeof L !== 'undefined') {
+                    console.log('Kaartcontainer is klaar en Leaflet is gedefinieerd. Doorgaan met kaartinitialisatie.');
+                    initializeLeafletMap();
+                } else {
+                    console.log('Kaartcontainer nog niet klaar of Leaflet niet gedefinieerd. Opnieuw proberen over 50ms...');
+                    // Als L niet is gedefinieerd, toon een foutmelding en stop met opnieuw proberen voor kaartinitialisatie
+                    if (typeof L === 'undefined') {
+                        console.error('Leaflet (L) is niet gedefinieerd. Kan de kaart niet initialiseren.');
+                        if (mapContainer) {
+                            mapContainer.innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Fout bij het laden van de kaart: Leaflet-bibliotheek niet beschikbaar. Controleer uw internetverbinding of probeer het later opnieuw.</p>';
+                            mapContainer.style.backgroundColor = '#ffe0e0';
+                        }
+                        return; // Stop met opnieuw proberen als L definitief niet aanwezig is
+                    }
+                    setTimeout(checkMapContainerReady, 50); // Poll elke 50ms
+                }
+            };
+
+            const initializeLeafletMap = () => {
+                try {
+                    // Definieer een aangepast pictogram (optioneel, maar goed voor consistentie)
+                    const customIcon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+                    console.log('Aangepast Leaflet-pictogram gedefinieerd.');
+
+                    // Initialiseer de kaart
+                    const map = L.map('map').setView([37.00, 25.00], 9); // Gecentreerd rond de Cycladen
+                    console.log('Kaartobject aangemaakt.');
+
+                    // Voeg OpenStreetMap-tegels toe van een betrouwbare provider
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> bijdragers',
+                        maxZoom: 19 // Standaard maximale zoom voor OpenStreetMap
+                    }).addTo(map);
+                    console.log('Tegellayer aan de kaart toegevoegd.');
+
+                    // Forceer herberekening van de kaartgrootte na een korte vertraging
+                    setTimeout(() => {
+                        map.invalidateSize();
+                        console.log('Kaartgrootte ongeldig gemaakt na een korte vertraging.');
+                    }, 100); // 100ms vertraging
+
+                    // Voeg listeners toe voor het laden van de kaart en tegelfouten voor debugging
+                    map.on('load', function() {
+                        console.log('Leaflet-kaart heeft zijn tegels succesvol geladen!');
+                    });
+                    map.on('tileerror', function(e) {
+                        console.error('Fout bij het laden van de kaarttegel:', e.tile.src, e);
+                    });
+
+
+                    // Vogelspotlocatiegegevens van de geleverde infographic
+                    const locations = [
+                        {
+                            name: "Naxos: De Vruchtbare Haven",
+                            coords: [37.087, 25.405], // Geschatte centrum van Naxos
+                            description: "Als het grootste en meest vruchtbare eiland van de Cycladen biedt Naxos diverse habitats, van zoutpannen tot bergen, waardoor het een topbestemming is voor vogelspotters.",
+                            keyAreas: [
+                                "Zoutpannen ten zuiden van Hora (bij Agios Prokopios)",
+                                "Agia Anna (rotsachtige pier)",
+                                "Mount Zas (hoogste piek)",
+                                "Dorpen zoals Apeiranthos (voor roofvogels)"
+                            ],
+                            notableSpecies: [
+                                "Vale Gier", "Eleonora's Valk", "Langpootbuizerd", "Havikarend",
+                                "Slechtvalk", "Steltkluut", "Griel", "Oostelijke Blonde Tapuit",
+                                "Rüppells Zwartkop", "Cretzschmars Gors", "Scopoli's Pijlstormvogel", "Yelkouan Pijlstormvogel",
+                                "Kuifaalscholver", "Blauwe Rotslijster"
+                            ],
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Naxos+Eiland"
+                        },
+                        {
+                            name: "Syros: Migratie Hotspot",
+                            coords: [37.443, 24.939], // Geschatte centrum van Syros
+                            description: "Syros, met name de kustgebieden zoals Poseidonia Bay, dient als een belangrijke rust- en voedingsplaats voor trekvogels tijdens hun lange reizen.",
+                            keyAreas: [
+                                "Poseidonia Bay",
+                                "Olijfgaarden en kustgebieden"
+                            ],
+                            notableSpecies: [
+                                "Hop", "Eleonora's Valk", "Havikarend (doortrek)", "Diverse Zangers",
+                                "Klauwieren", "Tapuiten", "Vliegenvangers", "Zwaluwen",
+                                "Kwikstaarten", "Meeuwen", "Pijlstormvogels"
+                            ],
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Syros+Eiland"
+                        },
+                        {
+                            name: "Folegandros: Rotsachtige Roofvogelrots",
+                            coords: [36.620, 24.900], // Geschatte centrum van Folegandros
+                            description: "Dit ruige eiland biedt dramatische kliffen en rotsachtig terrein, ideaal voor roofvogels en zeevogels, vooral tijdens de trek.",
+                            keyAreas: [
+                                "Kliffen en kustgebieden",
+                                "Rotsachtige hellingen in het binnenland"
+                            ],
+                            notableSpecies: [
+                                "Havikarend", "Rotsfazant", "Tapuit", "Eleonora's Valk",
+                                "Yelkouan Pijlstormvogel", "Scopoli's Pijlstormvogel"
+                            ],
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Folegandros+Kliffen"
+                        },
+                        {
+                            name: "Milos: Wetland Wonderen",
+                            coords: [36.700, 24.450], // Geschatte centrum van Milos
+                            description: "Milos beschikt over belangrijke wetlandgebieden en zoutpannen, die een verscheidenheid aan steltlopers en watervogels aantrekken, vooral tijdens trekperiodes.",
+                            keyAreas: [
+                                "Chivadolimni (zoutpan)",
+                                "Luchthavenplas Milos",
+                                "Klima-gebied"
+                            ],
+                            notableSpecies: [
+                                "Wilde Eend", "Kleine Plevier", "Kleine Strandloper", "Bonte Strandloper",
+                                "Kemphaan", "Bosruiter", "Audouins Meeuw", "Waterhoen",
+                                "Wespendief", "Kuifaalscholver"
+                            ],
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Milos+Wetlands"
+                        },
+                        {
+                            name: "Kea (Tzia): Eikenbos & Rijke Fauna",
+                            coords: [37.600, 24.330], // Geschatte centrum van Kea
+                            description: "Bekend om zijn aanzienlijke eikenbos, biedt Kea een groenere habitat in vergelijking met andere Cycladische eilanden, ter ondersteuning van een divers scala aan vogelsoorten.",
+                            keyAreas: [
+                                "Eikenbossen",
+                                "Heuvelachtige gebieden en ravijnen",
+                                "Kustbaaien"
+                            ],
+                            notableSpecies: [
+                                "Diverse Zangvogels", "Roofvogels (op doortrek)", "Zangers", "Vliegenvangers",
+                                "Uilen", "Kuifleeuwerik"
+                            ],
+                            locationImageUrl: "https://placehold.co/400x180/ADD8E6/000000?text=Kea+Eikenbos"
+                        }
+                    ];
+
+                    const infoCard = document.getElementById('infoCard');
+                    const cardTitle = document.getElementById('cardTitle');
+                    const cardDescription = document.getElementById('cardDescription');
+                    const cardKeyAreas = document.getElementById('cardKeyAreas');
+                    const cardNotableSpecies = document.getElementById('cardNotableSpecies');
+                    const cardImage = document.getElementById('cardImage'); // Nieuw: voor locatieafbeelding
+                    const llmBirdDetails = document.getElementById('llmBirdDetails');
+                    const llmBirdDetailsContent = document.getElementById('llmBirdDetailsContent');
+                    const llmLoadingSpinner = document.getElementById('llmLoadingSpinner');
+                    const birdDetailImage = document.getElementById('birdDetailImage'); // Nieuw: voor vogelafbeelding
+
+                    // Functie om infokaart te tonen
+                    window.showInfoCard = function(location) {
+                        cardTitle.textContent = location.name;
+                        cardDescription.textContent = location.description;
+                        cardImage.src = location.locationImageUrl; // Locatieafbeelding instellen
+                        cardImage.alt = location.name + " miniatuur";
+
+                        // Vorige lijsten wissen
+                        cardKeyAreas.innerHTML = '';
+                        cardNotableSpecies.innerHTML = '';
+                        llmBirdDetails.style.display = 'none'; // Verberg LLM-details wanneer nieuwe kaart opent
+                        llmBirdDetailsContent.innerHTML = ''; // Wis vorige LLM-inhoud
+                        birdDetailImage.src = ''; // Wis vorige vogelafbeelding
+
+                        // Belangrijkste vogelspotgebieden vullen
+                        location.keyAreas.forEach(area => {
+                            const li = document.createElement('li');
+                            li.className = 'bird-list-item';
+                            li.textContent = area;
+                            cardKeyAreas.appendChild(li);
+                        });
+
+                        // Opmerkelijke soorten vullen en klikbaar maken voor LLM-details
+                        location.notableSpecies.forEach(species => {
+                            const li = document.createElement('li');
+                            li.className = 'bird-list-item';
+                            li.textContent = species;
+                            li.onclick = () => getBirdDetailsFromLLM(species); // Klikhandler koppelen
+                            cardNotableSpecies.appendChild(li);
+                        });
+
+                        infoCard.classList.add('active');
+                    }
+
+                    // Functie om infokaart te verbergen
+                    window.hideInfoCard = function() {
+                        infoCard.classList.remove('active');
+                        llmBirdDetails.style.display = 'none'; // Zorg ervoor dat LLM-details verborgen zijn bij sluiten
+                        llmBirdDetailsContent.innerHTML = ''; // Wis LLM-inhoud
+                        birdDetailImage.src = ''; // Wis vogelafbeelding bij sluiten
+                    }
+
+                    // ✨ Gemini API Integratie: Haal vogeldetails op van LLM ✨
+                    async function getBirdDetailsFromLLM(birdName) {
+                        llmBirdDetails.style.display = 'block'; // Toon de LLM-details sectie
+                        llmBirdDetailsContent.innerHTML = ''; // Wis vorige inhoud
+                        birdDetailImage.src = `https://placehold.co/120x80/ADD8E6/000000?text=${encodeURIComponent(birdName)}`; // Stel vogel-specifieke afbeelding in
+                        birdDetailImage.alt = birdName + " miniatuur";
+                        llmLoadingSpinner.classList.remove('hidden'); // Toon laadspinner
+
+                        let chatHistory = [];
+                        // Prompt vertaald naar Nederlands
+                        const prompt = `Geef een beknopte samenvatting over de ${birdName} met de nadruk op zijn typische habitat, dieet en een of twee interessante feiten. Houd het bij ongeveer 80 woorden.`;
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // Als u andere modellen dan gemini-2.5-flash-preview-05-20 of imagen-3.0-generate-002 wilt gebruiken, geef hier een API-sleutel op. Laat dit anders zo.
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                        let retries = 0;
+                        const maxRetries = 3;
+                        const baseDelay = 1000; // 1 seconde
+
+                        while (retries < maxRetries) {
+                            try {
+                                const response = await fetch(apiUrl, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload)
+                                });
+
+                                if (!response.ok) {
+                                    // Als het antwoord niet OK is, gooi een fout om opnieuw te proberen
+                                    throw new Error(`HTTP fout! status: ${response.status}`);
+                                }
+
+                                const result = await response.json();
+
+                                if (result.candidates && result.candidates.length > 0 &&
+                                    result.candidates[0].content && result.candidates[0].content.parts &&
+                                    result.candidates[0].content.parts.length > 0) {
+                                    const text = result.candidates[0].content.parts[0].text;
+                                    llmBirdDetailsContent.innerHTML = text;
+                                    llmLoadingSpinner.classList.add('hidden'); // Verberg spinner
+                                    return; // Verlaat lus bij succes
+                                } else {
+                                    console.error("LLM-antwoordstructuur onverwacht:", result);
+                                    llmBirdDetailsContent.innerHTML = "Kon vogeldetails niet ophalen. Probeer het opnieuw.";
+                                    llmLoadingSpinner.classList.add('hidden'); // Verberg spinner
+                                    return; // Verlaat lus, aangezien de structuur een niet-opnieuw-probeerbare kwestie aangeeft
+                                }
+                            } catch (error) {
+                                console.error("Fout bij het ophalen van LLM-antwoord:", error);
+                                retries++;
+                                if (retries < maxRetries) {
+                                    const delay = baseDelay * Math.pow(2, retries - 1); // Exponentiële backoff
+                                    console.log(`Opnieuw proberen over ${delay / 1000} seconden... (Poging ${retries + 1}/${maxRetries})`);
+                                    await new Promise(resolve => setTimeout(resolve, delay));
+                                } else {
+                                    llmBirdDetailsContent.innerHTML = `Mislukt om vogeldetails op te halen vanwege een authenticatiefout (Status 401). Zorg ervoor dat uw API-sleutel geldig is.`;
+                                    llmLoadingSpinner.classList.add('hidden'); // Verberg spinner
+                                }
+                            }
+                        }
+                    }
+
+                    // Voeg markeringen toe voor elke locatie, met behulp van het aangepaste pictogram
+                    locations.forEach(location => {
+                        const marker = L.marker(location.coords, { icon: customIcon }).addTo(map);
+                        marker.bindPopup(`<b>${location.name.split(':')[0]}</b><br>Klik voor details!`);
+
+                        marker.on('click', () => showInfoCard(location));
+                    });
+                    console.log('Markeringen toegevoegd met aangepaste pictogrammen.');
+
+                    // Pas de kaartweergave aan bij het wijzigen van de venstergrootte voor betere responsiviteit
+                    window.addEventListener('resize', function() {
+                        map.invalidateSize();
+                    });
+                    console.log('Resize listener toegevoegd.');
+                } catch (error) {
+                    console.error('Fout bij het initialiseren van Leaflet-kaart:', error);
+                    // Toon een gebruiksvriendelijke melding op de pagina
+                    const mapContainer = document.getElementById('map');
+                    if (mapContainer) {
+                        mapContainer.innerHTML = '<p style="color: red; text-align: center; padding: 20px;">Fout bij het laden van de kaart. Probeer het later opnieuw.</p>';
+                        mapContainer.style.backgroundColor = '#ffe0e0'; // Lichtrode achtergrond voor fout
+                    }
+                }
+            };
+
+            // Start de controle op de gereedheid van de kaartcontainer en de definitie van Leaflet
+            checkMapContainerReady();
+        }); // Einde van DOMContentLoaded
+    </script>
+
+</body>
+</html>
