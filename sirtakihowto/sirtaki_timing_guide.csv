@@ -1,0 +1,101 @@
+Time_Seconds,BPM,Phase,Dance_Steps
+0.0,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+1.2121212121212122,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+2.4242424242424243,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+3.6363636363636367,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+4.848484848484849,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+6.0606060606060606,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+7.272727272727273,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+8.484848484848484,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+9.696969696969697,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+10.90909090909091,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+12.121212121212121,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+13.333333333333334,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+14.545454545454547,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+15.757575757575758,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+16.96969696969697,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+18.181818181818183,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+19.393939393939394,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+20.606060606060606,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+21.81818181818182,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+23.03030303030303,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+24.242424242424242,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+25.454545454545457,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+26.666666666666668,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+27.87878787878788,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+29.090909090909093,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+30.303030303030305,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+31.515151515151516,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+32.72727272727273,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+33.93939393939394,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+35.151515151515156,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+36.36363636363637,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+37.57575757575758,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+38.78787878787879,60.0,Slow Hasapiko,Basic steps: R-behind-R-close
+40.0,60.0,Medium Tempo,Add variations and turns
+41.21212121212121,61.21212121212121,Medium Tempo,Add variations and turns
+42.42424242424242,62.42424242424242,Medium Tempo,Add variations and turns
+43.63636363636364,63.63636363636364,Medium Tempo,Add variations and turns
+44.84848484848485,64.84848484848484,Medium Tempo,Add variations and turns
+46.06060606060606,66.06060606060606,Medium Tempo,Add variations and turns
+47.27272727272727,67.27272727272728,Medium Tempo,Add variations and turns
+48.484848484848484,68.48484848484848,Medium Tempo,Add variations and turns
+49.696969696969695,69.69696969696969,Medium Tempo,Add variations and turns
+50.909090909090914,70.9090909090909,Medium Tempo,Add variations and turns
+52.121212121212125,72.12121212121212,Medium Tempo,Add variations and turns
+53.333333333333336,73.33333333333334,Medium Tempo,Add variations and turns
+54.54545454545455,74.54545454545455,Medium Tempo,Add variations and turns
+55.75757575757576,75.75757575757575,Medium Tempo,Add variations and turns
+56.96969696969697,76.96969696969697,Medium Tempo,Add variations and turns
+58.18181818181819,78.18181818181819,Medium Tempo,Add variations and turns
+59.3939393939394,79.3939393939394,Medium Tempo,Add variations and turns
+60.60606060606061,80.60606060606061,Medium Tempo,Add variations and turns
+61.81818181818182,81.81818181818181,Medium Tempo,Add variations and turns
+63.03030303030303,83.03030303030303,Medium Tempo,Add variations and turns
+64.24242424242425,84.24242424242425,Medium Tempo,Add variations and turns
+65.45454545454545,85.45454545454545,Medium Tempo,Add variations and turns
+66.66666666666667,86.66666666666667,Medium Tempo,Add variations and turns
+67.87878787878788,87.87878787878788,Medium Tempo,Add variations and turns
+69.0909090909091,89.0909090909091,Medium Tempo,Add variations and turns
+70.30303030303031,90.30303030303031,Medium Tempo,Add variations and turns
+71.51515151515152,91.51515151515152,Medium Tempo,Add variations and turns
+72.72727272727273,92.72727272727273,Medium Tempo,Add variations and turns
+73.93939393939394,93.93939393939394,Medium Tempo,Add variations and turns
+75.15151515151516,95.15151515151516,Medium Tempo,Add variations and turns
+76.36363636363636,96.36363636363636,Medium Tempo,Add variations and turns
+77.57575757575758,97.57575757575758,Medium Tempo,Add variations and turns
+78.7878787878788,98.7878787878788,Medium Tempo,Add variations and turns
+80.0,100.0,Fast Hasaposerviko,"Kicks, hops, and jumps"
+81.21212121212122,100.9090909090909,Fast Hasaposerviko,"Kicks, hops, and jumps"
+82.42424242424242,101.81818181818181,Fast Hasaposerviko,"Kicks, hops, and jumps"
+83.63636363636364,102.72727272727273,Fast Hasaposerviko,"Kicks, hops, and jumps"
+84.84848484848484,103.63636363636363,Fast Hasaposerviko,"Kicks, hops, and jumps"
+86.06060606060606,104.54545454545455,Fast Hasaposerviko,"Kicks, hops, and jumps"
+87.27272727272728,105.45454545454547,Fast Hasaposerviko,"Kicks, hops, and jumps"
+88.48484848484848,106.36363636363636,Fast Hasaposerviko,"Kicks, hops, and jumps"
+89.6969696969697,107.27272727272728,Fast Hasaposerviko,"Kicks, hops, and jumps"
+90.9090909090909,108.18181818181819,Fast Hasaposerviko,"Kicks, hops, and jumps"
+92.12121212121212,109.0909090909091,Fast Hasaposerviko,"Kicks, hops, and jumps"
+93.33333333333334,110.0,Fast Hasaposerviko,"Kicks, hops, and jumps"
+94.54545454545455,110.9090909090909,Fast Hasaposerviko,"Kicks, hops, and jumps"
+95.75757575757576,111.81818181818183,Fast Hasaposerviko,"Kicks, hops, and jumps"
+96.96969696969697,112.72727272727272,Fast Hasaposerviko,"Kicks, hops, and jumps"
+98.18181818181819,113.63636363636364,Fast Hasaposerviko,"Kicks, hops, and jumps"
+99.39393939393939,114.54545454545455,Fast Hasaposerviko,"Kicks, hops, and jumps"
+100.60606060606061,115.45454545454545,Fast Hasaposerviko,"Kicks, hops, and jumps"
+101.81818181818183,116.36363636363637,Fast Hasaposerviko,"Kicks, hops, and jumps"
+103.03030303030303,117.27272727272728,Fast Hasaposerviko,"Kicks, hops, and jumps"
+104.24242424242425,118.18181818181819,Fast Hasaposerviko,"Kicks, hops, and jumps"
+105.45454545454545,119.0909090909091,Fast Hasaposerviko,"Kicks, hops, and jumps"
+106.66666666666667,120.0,Fast Hasaposerviko,"Kicks, hops, and jumps"
+107.87878787878788,120.9090909090909,Fast Hasaposerviko,"Kicks, hops, and jumps"
+109.0909090909091,121.81818181818181,Fast Hasaposerviko,"Kicks, hops, and jumps"
+110.30303030303031,122.72727272727273,Fast Hasaposerviko,"Kicks, hops, and jumps"
+111.51515151515152,123.63636363636364,Fast Hasaposerviko,"Kicks, hops, and jumps"
+112.72727272727273,124.54545454545455,Fast Hasaposerviko,"Kicks, hops, and jumps"
+113.93939393939394,125.45454545454545,Fast Hasaposerviko,"Kicks, hops, and jumps"
+115.15151515151516,126.36363636363637,Fast Hasaposerviko,"Kicks, hops, and jumps"
+116.36363636363637,127.27272727272728,Fast Hasaposerviko,"Kicks, hops, and jumps"
+117.57575757575758,128.1818181818182,Fast Hasaposerviko,"Kicks, hops, and jumps"
+118.7878787878788,129.0909090909091,Fast Hasaposerviko,"Kicks, hops, and jumps"
+120.0,130.0,Fast Hasaposerviko,"Kicks, hops, and jumps"
