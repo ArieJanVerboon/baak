@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famous Photographers of the Islands Southwest of Athens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="hero__title">Famous Photographers of the Islands Southwest of Athens</h1>
+                <p class="hero__subtitle">Capturing the timeless beauty of the Cyclades and Saronic Gulf</p>
+                <p class="hero__description">
+                    Discover the legendary photographers who documented the pristine beauty, traditional life, 
+                    and architectural heritage of Greece's most enchanting islands. From Henri Cartier-Bresson's 
+                    iconic street photography to contemporary landscape artists, explore how these visionaries 
+                    captured the essence of island life before and during the modern era.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Photographers Section -->
+    <section class="photographers" id="photographers">
+        <div class="container">
+            <h2 class="section__title">Featured Photographers</h2>
+            <div class="photographers__grid" id="photographersGrid">
+                <!-- Photographer cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline" id="timeline">
+        <div class="container">
+            <h2 class="section__title">Photography Timeline</h2>
+            <div class="timeline__container">
+                <div class="timeline__line"></div>
+                <div class="timeline__events" id="timelineEvents">
+                    <!-- Timeline events will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Islands Section -->
+    <section class="islands" id="islands">
+        <div class="container">
+            <h2 class="section__title">Geographic Context</h2>
+            <p class="islands__intro">
+                The islands southwest of Athens encompass two main archipelagos: the Cyclades and the Saronic Gulf islands. 
+                Each location offers unique photographic opportunities and cultural significance.
+            </p>
+            <div class="islands__grid" id="islandsGrid">
+                <!-- Island cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <h3 class="footer__title">Sources & Credits</h3>
+                <div class="footer__sources">
+                    <div class="source">
+                        <h4>Photography Archives</h4>
+                        <ul>
+                            <li>Museum of Modern Art (MoMA) Collection</li>
+                            <li>International Center of Photography</li>
+                            <li>Princeton University Art Museum</li>
+                            <li>RISD Museum Photography Collection</li>
+                        </ul>
+                    </div>
+                    <div class="source">
+                        <h4>Historical Documentation</h4>
+                        <ul>
+                            <li>Greek National Tourism Organization</li>
+                            <li>Cyclades Cultural Heritage Foundation</li>
+                            <li>Saronic Gulf Islands Archive</li>
+                            <li>Contemporary Greek Photography Association</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="footer__copyright">
+                    © 2025 Famous Photographers of Greek Islands. Educational content for photography enthusiasts.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Photographer Detail Modal -->
+    <div class="modal hidden" id="photographerModal">
+        <div class="modal__overlay" id="modalOverlay"></div>
+        <div class="modal__content">
+            <button class="modal__close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal__body" id="modalBody">
+                <!-- Modal content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
