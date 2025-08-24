@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyclades Natura 2000 Protected Areas - Marine & Avian Biodiversity</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>Cyclades Natura 2000 Protected Areas</h1>
+                <p class="header-subtitle">Marine & Avian Biodiversity Conservation in the Greek Islands</p>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-number">133</span>
+                        <span class="stat-label">Protected Bird Species</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Breeding Species</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">85%</span>
+                        <span class="stat-label">Global Eleonora's Falcons</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <div class="search-container">
+                    <input type="text" id="search-input" class="form-control" placeholder="Search sites, islands, or bird species...">
+                    <button id="search-btn" class="btn btn--primary btn--sm">Search</button>
+                </div>
+                
+                <button id="info-toggle" class="btn btn--outline btn--sm">About Natura 2000</button>
+                <button id="legend-toggle" class="btn btn--outline btn--sm">Legend</button>
+                <button id="migration-toggle" class="btn btn--outline btn--sm">Migration Info</button>
+            </div>
+
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+                
+                <!-- Legend -->
+                <div id="legend" class="legend">
+                    <h3>Site Types</h3>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-seagrass"></span>
+                        <span>Seagrass Meadows</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-reefs"></span>
+                        <span>Rocky Reefs & Corals</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-endemic"></span>
+                        <span>Endemic Species</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-mammals"></span>
+                        <span>Marine Mammals</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-turtles"></span>
+                        <span>Sea Turtles</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-birds"></span>
+                        <span>Bird Breeding Sites</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-raptors"></span>
+                        <span>Raptor Nesting Sites</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker marker-migration"></span>
+                        <span>Migration Stopovers</span>
+                    </div>
+                </div>
+
+                <!-- Enhanced Layer Controls -->
+                <div class="layer-controls">
+                    <h4>Filter Species</h4>
+                    <div class="filter-group">
+                        <h5>🐦 Birds</h5>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-all-birds" checked>
+                            <span>All Birds</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-seabirds" checked>
+                            <span>Seabirds</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-raptors" checked>
+                            <span>Raptors</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-landbirds" checked>
+                            <span>Landbirds</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-migration" checked>
+                            <span>Migration Sites</span>
+                        </label>
+                        
+                        <h5>🌊 Marine Life</h5>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-dolphins" checked>
+                            <span>Dolphins</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-monk-seals" checked>
+                            <span>Monk Seals</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-turtles" checked>
+                            <span>Sea Turtles</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-endemic" checked>
+                            <span>Endemic Plants</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filter-seagrass" checked>
+                            <span>Seagrass Meadows</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Migration Info Modal -->
+        <div id="migration-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🦅 Bird Migration in the Cyclades</h2>
+                    <button class="modal-close" id="migration-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="migration-section">
+                        <h3>Migration Patterns</h3>
+                        <p>The Cyclades serve as a critical hub for Mediterranean bird migration, with over <strong>250 species</strong> recorded during migration periods.</p>
+                        
+                        <div class="migration-timing">
+                            <div class="season-card">
+                                <h4>🌸 Spring Migration</h4>
+                                <p><strong>March - June</strong><br>
+                                Major northward movement of European breeding birds</p>
+                            </div>
+                            <div class="season-card">
+                                <h4>🍂 Autumn Migration</h4>
+                                <p><strong>August - October</strong><br>
+                                Southward migration including unique Eleonora's falcon breeding</p>
+                            </div>
+                        </div>
+                        
+                        <h3>🦅 Eleonora's Falcon - Star Species</h3>
+                        <ul>
+                            <li><strong>Unique autumn breeding</strong> (July-October)</li>
+                            <li><strong>9,000km migration</strong> to Madagascar</li>
+                            <li><strong>85% of global population</strong> breeds in the Aegean</li>
+                            <li><strong>12,000+ pairs</strong> in Greece</li>
+                            <li>Practice unique "bird imprisonment" behavior</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Modal -->
+        <div id="info-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>About Natura 2000 Network</h2>
+                    <button class="modal-close" id="info-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Natura 2000 is the largest coordinated network of protected areas in the world, stretching across all 27 EU countries, covering over 18% of the EU's land area and almost 10% of its marine territory.</p>
+                    
+                    <h3>🐦 Avian Diversity in the Cyclades</h3>
+                    <p>The Cyclades are a globally important area for bird conservation with:</p>
+                    <ul>
+                        <li><strong>133 protected bird species</strong> across all sites</li>
+                        <li><strong>42 breeding species</strong> (21 residents, 21 migrants)</li>
+                        <li><strong>Critical habitat</strong> for 85% of global Eleonora's falcon population</li>
+                        <li><strong>Major breeding colonies</strong> of Mediterranean endemic seabirds</li>
+                        <li><strong>Important migration route</strong> for hundreds of species</li>
+                    </ul>
+                    
+                    <h3>🌊 Marine Protection in the Cyclades</h3>
+                    <p>The Cyclades host some of the Mediterranean's most important marine protected areas, including:</p>
+                    <ul>
+                        <li><strong>Critical habitats</strong> for the endangered Mediterranean monk seal</li>
+                        <li><strong>Extensive Posidonia meadows</strong> - underwater forests essential for marine life</li>
+                        <li><strong>Breeding areas</strong> for sea turtles and seabirds</li>
+                        <li><strong>Endemic species</strong> found nowhere else on Earth</li>
+                        <li><strong>Important feeding grounds</strong> for dolphins and marine mammals</li>
+                    </ul>
+                    
+                    <h3>Conservation Highlights</h3>
+                    <p>Gyaros hosts approximately 70 Mediterranean monk seals - one of the largest populations worldwide. In 2025, the first green turtle nest was recorded in the Cyclades at Naxos, marking a significant conservation milestone.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="loading-spinner"></div>
+            <p>Loading protected areas...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
