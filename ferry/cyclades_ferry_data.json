@@ -1,0 +1,580 @@
+{
+  "islands": [
+    {
+      "name": "Amorgos",
+      "lat": 36.8333,
+      "lon": 25.8833,
+      "type": "major"
+    },
+    {
+      "name": "Anafi",
+      "lat": 36.3667,
+      "lon": 25.7833,
+      "type": "major"
+    },
+    {
+      "name": "Andros",
+      "lat": 37.8333,
+      "lon": 24.9333,
+      "type": "major"
+    },
+    {
+      "name": "Antiparos",
+      "lat": 37.0403,
+      "lon": 25.0814,
+      "type": "major"
+    },
+    {
+      "name": "Delos",
+      "lat": 37.4,
+      "lon": 25.2667,
+      "type": "major"
+    },
+    {
+      "name": "Ios",
+      "lat": 36.7167,
+      "lon": 25.3,
+      "type": "major"
+    },
+    {
+      "name": "Kea (Tzia)",
+      "lat": 37.6167,
+      "lon": 24.3333,
+      "type": "major"
+    },
+    {
+      "name": "Kimolos",
+      "lat": 36.8,
+      "lon": 24.5667,
+      "type": "major"
+    },
+    {
+      "name": "Kythnos",
+      "lat": 37.4,
+      "lon": 24.4167,
+      "type": "major"
+    },
+    {
+      "name": "Milos",
+      "lat": 36.7333,
+      "lon": 24.5167,
+      "type": "major"
+    },
+    {
+      "name": "Mykonos",
+      "lat": 37.45,
+      "lon": 25.35,
+      "type": "major"
+    },
+    {
+      "name": "Naxos",
+      "lat": 37.1,
+      "lon": 25.3667,
+      "type": "major"
+    },
+    {
+      "name": "Paros",
+      "lat": 37.0833,
+      "lon": 25.15,
+      "type": "major"
+    },
+    {
+      "name": "Folegandros",
+      "lat": 36.6167,
+      "lon": 24.9167,
+      "type": "major"
+    },
+    {
+      "name": "Serifos",
+      "lat": 37.15,
+      "lon": 24.5,
+      "type": "major"
+    },
+    {
+      "name": "Sifnos",
+      "lat": 36.9833,
+      "lon": 24.6833,
+      "type": "major"
+    },
+    {
+      "name": "Sikinos",
+      "lat": 36.6833,
+      "lon": 25.1167,
+      "type": "major"
+    },
+    {
+      "name": "Syros",
+      "lat": 37.4333,
+      "lon": 24.9167,
+      "type": "major"
+    },
+    {
+      "name": "Tinos",
+      "lat": 37.6,
+      "lon": 25.1333,
+      "type": "major"
+    },
+    {
+      "name": "Santorini (Thira)",
+      "lat": 36.3932,
+      "lon": 25.4615,
+      "type": "major"
+    },
+    {
+      "name": "Donousa",
+      "lat": 37.1,
+      "lon": 25.8,
+      "type": "small"
+    },
+    {
+      "name": "Iraklia",
+      "lat": 36.8441,
+      "lon": 25.4556,
+      "type": "small"
+    },
+    {
+      "name": "Koufonisia",
+      "lat": 36.8703,
+      "lon": 25.6231,
+      "type": "small"
+    },
+    {
+      "name": "Schinoussa",
+      "lat": 36.8833,
+      "lon": 25.5,
+      "type": "small"
+    },
+    {
+      "name": "Therasia",
+      "lat": 36.43,
+      "lon": 25.33,
+      "type": "small"
+    },
+    {
+      "name": "Polyaigos",
+      "lat": 36.8,
+      "lon": 24.6833,
+      "type": "small"
+    },
+    {
+      "name": "Gyaros",
+      "lat": 37.62,
+      "lon": 24.73,
+      "type": "small"
+    },
+    {
+      "name": "Makronisos",
+      "lat": 37.7,
+      "lon": 24.0167,
+      "type": "small"
+    },
+    {
+      "name": "Keros",
+      "lat": 36.95,
+      "lon": 25.71,
+      "type": "small"
+    }
+  ],
+  "mainland_ports": [
+    {
+      "name": "Piraeus (Athens)",
+      "lat": 37.9364,
+      "lon": 23.6291,
+      "type": "mainland"
+    },
+    {
+      "name": "Rafina",
+      "lat": 38.0236,
+      "lon": 24.0089,
+      "type": "mainland"
+    },
+    {
+      "name": "Lavrio",
+      "lat": 37.7167,
+      "lon": 24.0667,
+      "type": "mainland"
+    }
+  ],
+  "ferry_routes": [
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Syros",
+      "duration": "2-4 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Mykonos",
+      "duration": "2.5-5.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Paros",
+      "duration": "3-4.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Naxos",
+      "duration": "3-5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Santorini",
+      "duration": "4.5-8 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Ios",
+      "duration": "4-7 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Milos",
+      "duration": "2.5-7 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Sifnos",
+      "duration": "3-5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Serifos",
+      "duration": "2.5-4 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Kythnos",
+      "duration": "2-3 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Piraeus (Athens)",
+      "to": "Tinos",
+      "duration": "4 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Rafina",
+      "to": "Andros",
+      "duration": "1-2 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Rafina",
+      "to": "Tinos",
+      "duration": "2-3.5 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Rafina",
+      "to": "Mykonos",
+      "duration": "2.5-3 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Rafina",
+      "to": "Paros",
+      "duration": "3.5 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Rafina",
+      "to": "Naxos",
+      "duration": "4.5-5.5 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Lavrio",
+      "to": "Kea (Tzia)",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Lavrio",
+      "to": "Kythnos",
+      "duration": "1.5-2.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Mykonos",
+      "to": "Santorini",
+      "duration": "2-3 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Mykonos",
+      "to": "Paros",
+      "duration": "30min-1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Mykonos",
+      "to": "Naxos",
+      "duration": "30min-1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Mykonos",
+      "to": "Tinos",
+      "duration": "15-30 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Mykonos",
+      "to": "Syros",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Paros",
+      "to": "Naxos",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Paros",
+      "to": "Santorini",
+      "duration": "2 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Paros",
+      "to": "Ios",
+      "duration": "1-2 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Paros",
+      "to": "Milos",
+      "duration": "2-3 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Naxos",
+      "to": "Santorini",
+      "duration": "2 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Ios",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Koufonisia",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Iraklia",
+      "duration": "45min",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Schinoussa",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Donousa",
+      "duration": "1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Naxos",
+      "to": "Amorgos",
+      "duration": "2-3 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Santorini",
+      "to": "Ios",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Santorini",
+      "to": "Milos",
+      "duration": "2 hours",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Santorini",
+      "to": "Folegandros",
+      "duration": "40min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Santorini",
+      "to": "Sikinos",
+      "duration": "30-45 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Santorini",
+      "to": "Anafi",
+      "duration": "1 hour",
+      "frequency": "seasonal"
+    },
+    {
+      "from": "Syros",
+      "to": "Tinos",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Syros",
+      "to": "Mykonos",
+      "duration": "30min-1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Syros",
+      "to": "Paros",
+      "duration": "1-2 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Andros",
+      "to": "Tinos",
+      "duration": "1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Tinos",
+      "to": "Mykonos",
+      "duration": "15-30 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Milos",
+      "to": "Kimolos",
+      "duration": "20 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Milos",
+      "to": "Sifnos",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Milos",
+      "to": "Serifos",
+      "duration": "1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Sifnos",
+      "to": "Serifos",
+      "duration": "30-55 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Serifos",
+      "to": "Kythnos",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Ios",
+      "to": "Folegandros",
+      "duration": "45 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Ios",
+      "to": "Sikinos",
+      "duration": "20 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Folegandros",
+      "to": "Sikinos",
+      "duration": "20 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Koufonisia",
+      "to": "Iraklia",
+      "duration": "20 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Koufonisia",
+      "to": "Schinoussa",
+      "duration": "15 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Iraklia",
+      "to": "Schinoussa",
+      "duration": "7 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Schinoussa",
+      "to": "Donousa",
+      "duration": "30 minutes",
+      "frequency": "daily"
+    },
+    {
+      "from": "Amorgos",
+      "to": "Koufonisia",
+      "duration": "1 hour",
+      "frequency": "daily"
+    },
+    {
+      "from": "Amorgos",
+      "to": "Iraklia",
+      "duration": "1.5 hours",
+      "frequency": "daily"
+    },
+    {
+      "from": "Amorgos",
+      "to": "Schinoussa",
+      "duration": "1.5 hours",
+      "frequency": "daily"
+    }
+  ],
+  "ferry_companies": [
+    {
+      "name": "SeaJets",
+      "color": "#FF0000"
+    },
+    {
+      "name": "Blue Star Ferries",
+      "color": "#0066CC"
+    },
+    {
+      "name": "Golden Star Ferries",
+      "color": "#FFD700"
+    },
+    {
+      "name": "Cyclades Fast Ferries",
+      "color": "#00CC66"
+    },
+    {
+      "name": "Hellenic Seaways",
+      "color": "#9900CC"
+    },
+    {
+      "name": "Zante Ferries",
+      "color": "#FF6600"
+    }
+  ]
+}
