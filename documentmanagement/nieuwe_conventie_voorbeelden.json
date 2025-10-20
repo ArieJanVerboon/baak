@@ -1,0 +1,101 @@
+{
+  "format": "afkorting-trainingid_functie-activiteit-onderwerp_modulelokatie.bestandvorm",
+  "voorbeelden": [
+    {
+      "bestandsnaam": "PA-161_pb-in-ijsberg_m1p2.docx",
+      "uitleg": {
+        "afkorting": "PA (Persoonlijk leiderschap Avontuur)",
+        "training_id": "161 (positie in alfabetische volgorde)",
+        "functie": "pb (playbook)",
+        "activiteit": "in (inleveropdracht)",
+        "onderwerp": "ijsberg (communicatiethema)",
+        "modulelokatie": "m1p2 (module 1, positie 2)",
+        "bestandvorm": "docx (Word document)"
+      },
+      "beschrijving": "Playbook inleveropdracht over ijsbergmodel in persoonlijk leiderschap"
+    },
+    {
+      "bestandsnaam": "HPL-816_co-fe-feedback_m3p1.pdf",
+      "uitleg": {
+        "afkorting": "HPL (Hoofd Persoonlijk Leiderschap)",
+        "training_id": "816 (positie in alfabetische volgorde)",
+        "functie": "co (contract/overeenkomst)",
+        "activiteit": "fe (feedback)",
+        "onderwerp": "feedback (feedbackprocessen)",
+        "modulelokatie": "m3p1 (module 3, positie 1)",
+        "bestandvorm": "pdf (PDF document)"
+      },
+      "beschrijving": "Contract/overeenkomst voor feedback activiteit in leiderschap training"
+    },
+    {
+      "bestandsnaam": "CM-245_pb-pr-presentatie_m2p4.pptx",
+      "uitleg": {
+        "afkorting": "CM (Communicatie Masterclass)",
+        "training_id": "245 (positie in alfabetische volgorde)",
+        "functie": "pb (playbook)",
+        "activiteit": "pr (presentatie)",
+        "onderwerp": "presentatie (presentatievaardigheden)",
+        "modulelokatie": "m2p4 (module 2, positie 4)",
+        "bestandvorm": "pptx (PowerPoint presentatie)"
+      },
+      "beschrijving": "Playbook voor presentatieactiviteit in communicatie training"
+    },
+    {
+      "bestandsnaam": "TL-492_ev-re-reflectie_m1p1.docx",
+      "uitleg": {
+        "afkorting": "TL (Team Leiderschap)",
+        "training_id": "492 (positie in alfabetische volgorde)",
+        "functie": "ev (evaluatie)",
+        "activiteit": "re (reflectie)",
+        "onderwerp": "reflectie (zelfreflectie)",
+        "modulelokatie": "m1p1 (module 1, positie 1)",
+        "bestandvorm": "docx (Word document)"
+      },
+      "beschrijving": "Evaluatieformulier voor reflectie-activiteit in teamleiderschap"
+    },
+    {
+      "bestandsnaam": "DI-678_ha-di-diversiteit_m4p3.xlsx",
+      "uitleg": {
+        "afkorting": "DI (Diversiteit & Inclusie)",
+        "training_id": "678 (positie in alfabetische volgorde)",
+        "functie": "ha (handleiding)",
+        "activiteit": "di (discussie)",
+        "onderwerp": "diversiteit (diversiteitsthema's)",
+        "modulelokatie": "m4p3 (module 4, positie 3)",
+        "bestandvorm": "xlsx (Excel spreadsheet)"
+      },
+      "beschrijving": "Handleiding voor discussie-activiteit over diversiteit"
+    }
+  ],
+  "vergelijking": [
+    {
+      "oude_naam": "POL-001_remote-work-policy_v2.1.docx",
+      "nieuwe_naam": "PA-161_pb-in-ijsberg_m1p2.docx",
+      "verbetering": "Specifiekere context voor training, module lokatie toegevoegd"
+    },
+    {
+      "oude_naam": "RPT-005_budget-analysis-training_v1.2.xlsx",
+      "nieuwe_naam": "CM-245_pb-pr-presentatie_m2p4.pptx",
+      "verbetering": "Duidelijke activiteit (presentatie) en module positie"
+    },
+    {
+      "oude_naam": "PROC-012_team-meetings-training_v1.0.docx",
+      "nieuwe_naam": "TL-492_ev-re-reflectie_m1p1.docx",
+      "verbetering": "Specifieke LMS activiteit (reflectie) en evaluatie context"
+    },
+    {
+      "oude_naam": "GID-015_user-access-security-training_v1.0.pdf",
+      "nieuwe_naam": "DI-678_ha-di-diversiteit_m4p3.xlsx",
+      "verbetering": "Training specifiek onderwerp (diversiteit) met handleiding functie"
+    }
+  ],
+  "voordelen": [
+    "Specifieke training identificatie via afkorting en ID",
+    "Duidelijke LMS activiteit herkenning (in, fe, pr, re, di)",
+    "Exacte module en positie lokatie (m1p2, m3p1, etc.)",
+    "Functionele context (pb=playbook, co=contract, ev=evaluatie)",
+    "Gestructureerde onderwerp identificatie",
+    "Betere integratie met LMS systemen",
+    "Precisere content categorisatie"
+  ]
+}

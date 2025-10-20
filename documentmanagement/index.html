@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Implementatie van Platte Documentstructuur met SharePoint - Van Complexe Mappen naar Intelligente Metadata">
+    <meta name="keywords" content="SharePoint, documentbeheer, metadata, platte structuur, implementatie">
+    <meta name="author" content="SharePoint Implementation Guide">
+    <meta property="og:title" content="SharePoint Platte Documentstructuur">
+    <meta property="og:description" content="Implementatiegids voor platte documentstructuur met SharePoint">
+    <meta property="og:type" content="article">
+    <title>SharePoint Platte Documentstructuur - Implementatiegids</title>
+    
+    <style>
+        :root {
+            /* Design System Colors */
+            --color-white: rgba(255, 255, 255, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+            
+            /* RGB versions for opacity control */
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+            --color-red-500-rgb: 192, 21, 47;
+            --color-orange-500-rgb: 168, 75, 47;
+            
+            /* Background Tokens */
+            --color-bg-1: rgba(59, 130, 246, 0.08);
+            --color-bg-2: rgba(245, 158, 11, 0.08);
+            --color-bg-3: rgba(34, 197, 94, 0.08);
+            --color-bg-4: rgba(239, 68, 68, 0.08);
+            --color-bg-5: rgba(147, 51, 234, 0.08);
+            --color-bg-6: rgba(249, 115, 22, 0.08);
+            --color-bg-7: rgba(236, 72, 153, 0.08);
+            --color-bg-8: rgba(6, 182, 212, 0.08);
+            
+            /* Semantic Colors */
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-500);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-500);
+            --color-info: var(--color-slate-500);
+            
+            /* Typography */
+            --font-family-base: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+            --font-family-mono: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --font-size-xs: 11px;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+            
+            /* Spacing */
+            --space-1: 1px;
+            --space-2: 2px;
+            --space-3: 0.75rem;
+            --space-4: 4px;
+            --space-6: 6px;
+            --space-8: 8px;
+            --space-10: 10px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            
+            /* Radius */
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            
+            /* Animation */
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* Layout */
+            --max-width: 1200px;
+        }
+        
+        /* Dark mode colors */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(167, 169, 169, 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-primary-hover: rgba(45, 166, 178, 1);
+                --color-secondary: rgba(119, 124, 124, 0.15);
+                --color-border: rgba(119, 124, 124, 0.3);
+                --color-card-border: rgba(119, 124, 124, 0.2);
+                --color-error: var(--color-red-400);
+                --color-success: var(--color-teal-300);
+                --color-warning: var(--color-orange-400);
+                --color-info: var(--color-gray-300);
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-base);
+            line-height: var(--line-height-normal);
+        }
+        
+        body {
+            color: var(--color-text);
+            background-color: var(--color-background);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-16);
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            font-weight: var(--font-weight-semibold);
+            line-height: var(--line-height-tight);
+            color: var(--color-text);
+        }
+        
+        h1 { font-size: var(--font-size-4xl); }
+        h2 { font-size: var(--font-size-3xl); }
+        h3 { font-size: var(--font-size-2xl); }
+        h4 { font-size: var(--font-size-xl); }
+        h5 { font-size: var(--font-size-lg); }
+        h6 { font-size: var(--font-size-base); }
+        
+        p { margin: 0 0 var(--space-16) 0; }
+        
+        /* Header Styles */
+        .header {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-32) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='m0 20 20-20h20l20 20-20 20h-20z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-title {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-16);
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-normal);
+            margin-bottom: var(--space-24);
+            opacity: 0.9;
+        }
+        
+        .intro-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-16);
+            margin-top: var(--space-24);
+        }
+        
+        .intro-point {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: var(--space-32) 0;
+            margin-bottom: var(--space-24);
+        }
+        
+        .section:nth-child(even) {
+            background: var(--color-surface);
+        }
+        
+        .section-title {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-24);
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: calc(0px - var(--space-8));
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-20);
+            margin-bottom: var(--space-16);
+            border: 1px solid var(--color-card-border);
+            transition: transform var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Naming Convention Styles */
+        .naming-format {
+            background: var(--color-text);
+            color: var(--color-surface);
+            padding: var(--space-20);
+            border-radius: var(--radius-base);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-lg);
+            text-align: center;
+            margin: var(--space-24) 0;
+            letter-spacing: 1px;
+        }
+        
+        .naming-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-8);
+            justify-content: center;
+            align-items: center;
+            margin-top: var(--space-16);
+        }
+        
+        .token {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-6) var(--space-10);
+            border-radius: var(--radius-base);
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+        }
+        
+        .token--date { background: var(--color-bg-8); border-color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+        .token--dept { background: var(--color-bg-3); }
+        .token--subject { background: var(--color-bg-1); }
+        .token--version { background: var(--color-bg-6); }
+        .token--ext { background: var(--color-bg-2); }
+        
+        .examples-grid {
+            display: grid;
+            gap: var(--space-20);
+        }
+        
+        .example-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            align-items: center;
+        }
+        
+        .bad-example, .good-example {
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+        }
+        
+        .bad-example {
+            background: #fef2f2;
+            border: 1px solid var(--color-error);
+            color: var(--color-error);
+        }
+        
+        .good-example {
+            background: #f0fdf4;
+            border: 1px solid var(--color-success);
+            color: var(--color-success);
+        }
+        
+        /* Metadata Schema */
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-24);
+        }
+        
+        .field-list {
+            list-style: none;
+        }
+        
+        .field-item {
+            background: var(--color-surface);
+            margin: var(--space-8) 0;
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            border-left: 4px solid var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .field-item.optional {
+            border-left-color: var(--color-text-secondary);
+            opacity: 0.8;
+        }
+        
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding: var(--space-24) 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            margin-bottom: var(--space-24);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+        
+        .timeline-content {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-20);
+            box-shadow: var(--shadow-sm);
+            max-width: 400px;
+            border: 1px solid var(--color-card-border);
+            position: relative;
+        }
+        
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+        }
+        
+        .timeline-item .timeline-content::before {
+            right: -24px;
+            border-left-color: var(--color-surface);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -24px;
+            right: auto;
+            border-right-color: var(--color-surface);
+            border-left-color: transparent;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--color-primary);
+            border: 4px solid var(--color-surface);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--color-primary);
+            top: 50%;
+            margin-top: -10px;
+        }
+        
+        .phase-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+        }
+        
+        .phase-name {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-medium);
+            margin-bottom: var(--space-12);
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            padding: var(--space-4) 0;
+            position: relative;
+            padding-left: var(--space-20);
+        }
+        
+        .activity-item::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-success);
+            font-weight: bold;
+        }
+        
+        /* Views Grid */
+        .views-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-20);
+        }
+        
+        .view-card {
+            text-align: center;
+            padding: var(--space-24) var(--space-20);
+        }
+        
+        .view-icon {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-16);
+            display: block;
+        }
+        
+        .view-name {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-12);
+        }
+        
+        .filter-badges {
+            margin-top: var(--space-16);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-8);
+            justify-content: center;
+        }
+        
+        .badge {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-xs);
+            background: var(--color-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            padding: var(--space-6) var(--space-12);
+            color: var(--color-text);
+        }
+        
+        /* Search Examples */
+        .search-examples {
+            display: grid;
+            gap: var(--space-20);
+        }
+        
+        .search-item {
+            background: var(--color-text);
+            color: var(--color-surface);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            font-family: var(--font-family-mono);
+        }
+        
+        .search-query {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-8);
+        }
+        
+        .search-query .k { color: var(--color-info); }
+        .search-query .op { color: var(--color-warning); font-weight: var(--font-weight-semibold); }
+        .search-query .v { color: var(--color-success); }
+        
+        .search-description {
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-sm);
+            opacity: 0.8;
+        }
+        
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-20);
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: var(--space-24);
+        }
+        
+        .benefit-icon {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-16);
+            display: block;
+        }
+        
+        .benefit-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-12);
+        }
+        
+        /* Workflows */
+        .workflows-grid {
+            display: grid;
+            gap: var(--space-20);
+        }
+        
+        .workflow-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--space-16);
+            align-items: center;
+        }
+        
+        .workflow-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--color-primary);
+            color: var(--color-surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-2xl);
+        }
+        
+        .workflow-content h4 {
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+        }
+        
+        .workflow-trigger {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+        
+        /* Success Metrics */
+        .metrics-list {
+            list-style: none;
+            display: grid;
+            gap: var(--space-16);
+        }
+        
+        .metric-item {
+            background: var(--color-surface);
+            padding: var(--space-20);
+            border-radius: var(--radius-base);
+            border-left: 4px solid var(--color-success);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-12);
+        }
+        
+        .metric-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .metric-text {
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .metric-target {
+            background: var(--color-success);
+            color: var(--color-surface);
+            padding: var(--space-6) var(--space-12);
+            border-radius: var(--radius-base);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-sm);
+        }
+        
+        .metric-bar {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background: var(--color-secondary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        
+        .metric-bar__target {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: rgba(var(--color-teal-500-rgb), 0.6);
+            transition: width var(--duration-normal) var(--ease-standard);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--color-text);
+            color: var(--color-surface);
+            padding: var(--space-32) 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .checklist {
+            list-style: none;
+            text-align: left;
+            margin: var(--space-24) 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-16);
+        }
+        
+        .checklist-item {
+            padding: var(--space-8);
+            position: relative;
+            padding-left: var(--space-24);
+        }
+        
+        .checklist-item::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: var(--font-size-lg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-12);
+            }
+            
+            .main-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .subtitle {
+                font-size: var(--font-size-lg);
+            }
+            
+            .intro-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .example-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 50px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+            
+            .timeline-item:nth-child(even) {
+                padding-left: 50px;
+                padding-right: 0;
+            }
+            
+            .timeline-marker {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+            
+            .timeline-content::before {
+                left: -24px !important;
+                right: auto !important;
+                border-right-color: var(--color-surface) !important;
+                border-left-color: transparent !important;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .views-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .naming-legend {
+                justify-content: flex-start;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .header {
+                background: white !important;
+                color: black !important;
+                border-bottom: 2px solid black;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: var(--space-16);
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid black;
+            }
+            
+            .timeline::before {
+                background: black;
+            }
+            
+            .footer {
+                background: white !important;
+                color: black !important;
+                border-top: 2px solid black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="main-title">Implementatie van Platte Documentstructuur met SharePoint</h1>
+                <p class="subtitle">Van Complexe Mappen naar LMS-Geïntegreerde Metadata</p>
+                
+                <div class="intro-points">
+                    <div class="intro-point">🎓 LMS-geïntegreerde naming convention</div>
+                    <div class="intro-point">📍 Module-gebaseerde content organisatie</div>
+                    <div class="intro-point">🔍 Training-specifieke zoekfuncties</div>
+                    <div class="intro-point">⚡ Activiteit-gedreven workflows</div>
+                    <div class="intro-point">🔗 Perfecte LMS integratie</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Naming Convention Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Geavanceerde LMS Bestandsnaamconventie</h2>
+                
+                <div class="naming-format">
+                    afkorting-trainingid_functie-activiteit-onderwerp_modulelokatie.bestandvorm
+                </div>
+                
+                <div class="naming-legend">
+                    <span class="token token--date" title="Training Afkorting">PA</span>
+                    <span>-</span>
+                    <span class="token token--version" title="Training ID">161</span>
+                    <span>_</span>
+                    <span class="token token--dept" title="Functie">pb</span>
+                    <span>-</span>
+                    <span class="token token--subject" title="Activiteit">in</span>
+                    <span>-</span>
+                    <span class="token token--ext" title="Onderwerp">ijsberg</span>
+                    <span>_</span>
+                    <span class="token token--date" title="Modulelokatie">m1p2</span>
+                    <span>.</span>
+                    <span class="token token--ext" title="Bestandvorm">docx</span>
+                </div>
+                
+                <!-- LMS Component Legend -->
+                <div class="card" style="margin-bottom: var(--space-24);">
+                    <h3 style="color: var(--color-primary); margin-bottom: var(--space-16);">🎓 LMS Component Codes</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-12); margin-bottom: var(--space-16);">
+                        <div style="padding: var(--space-8); border: 1px solid var(--color-border); border-radius: var(--radius-base);">
+                            <strong style="color: var(--color-primary);">Training Afkortingen:</strong><br>
+                            <span class="token token--date">PA</span> Persoonlijk leiderschap Avontuur<br>
+                            <span class="token token--date">HPL</span> Hoofd Persoonlijk Leiderschap<br>
+                            <span class="token token--date">CM</span> Communicatie Masterclass<br>
+                            <span class="token token--date">TL</span> Team Leiderschap<br>
+                            <span class="token token--date">DI</span> Diversiteit &amp; Inclusie
+                        </div>
+                        <div style="padding: var(--space-8); border: 1px solid var(--color-border); border-radius: var(--radius-base);">
+                            <strong style="color: var(--color-primary);">Functie Codes:</strong><br>
+                            <span class="token token--dept">pb</span> playbook<br>
+                            <span class="token token--dept">co</span> contract<br>
+                            <span class="token token--dept">ev</span> evaluatie<br>
+                            <span class="token token--dept">ha</span> handleiding
+                        </div>
+                        <div style="padding: var(--space-8); border: 1px solid var(--color-border); border-radius: var(--radius-base);">
+                            <strong style="color: var(--color-primary);">Activiteit Codes:</strong><br>
+                            <span class="token token--subject">in</span> inleveropdracht<br>
+                            <span class="token token--subject">fe</span> feedback<br>
+                            <span class="token token--subject">pr</span> presentatie<br>
+                            <span class="token token--subject">re</span> reflectie<br>
+                            <span class="token token--subject">di</span> discussie
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="examples-grid">
+                    <div class="card">
+                        <div class="example-item">
+                            <div class="bad-example">
+                                ❌ 2024-10-11_persoonlijk-leiderschap-ijsberg_v1.0.docx
+                            </div>
+                            <div class="good-example">
+                                ✅ PA-161_pb-in-ijsberg_m1p2.docx
+                            </div>
+                        </div>
+                        <p style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"><strong>PA-161:</strong> Playbook inleveropdracht over ijsbergmodel in persoonlijk leiderschap (module 1, positie 2)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="example-item">
+                            <div class="bad-example">
+                                ❌ 2024-10-12_leiderschap-feedback-contract_v2.0.pdf
+                            </div>
+                            <div class="good-example">
+                                ✅ HPL-816_co-fe-feedback_m3p1.pdf
+                            </div>
+                        </div>
+                        <p style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"><strong>HPL-816:</strong> Contract/overeenkomst voor feedback activiteit in leiderschap training (module 3, positie 1)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="example-item">
+                            <div class="bad-example">
+                                ❌ 2024-10-13_communicatie-presentatie-playbook_v1.5.pptx
+                            </div>
+                            <div class="good-example">
+                                ✅ CM-245_pb-pr-presentatie_m2p4.pptx
+                            </div>
+                        </div>
+                        <p style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"><strong>CM-245:</strong> Playbook voor presentatieactiviteit in communicatie training (module 2, positie 4)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="example-item">
+                            <div class="bad-example">
+                                ❌ 2024-10-14_team-leiderschap-reflectie-eval_v1.0.docx
+                            </div>
+                            <div class="good-example">
+                                ✅ TL-492_ev-re-reflectie_m1p1.docx
+                            </div>
+                        </div>
+                        <p style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"><strong>TL-492:</strong> Evaluatieformulier voor reflectie-activiteit in teamleiderschap (module 1, positie 1)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="example-item">
+                            <div class="bad-example">
+                                ❌ 2024-10-15_diversiteit-discussie-handleiding_v2.1.xlsx
+                            </div>
+                            <div class="good-example">
+                                ✅ DI-678_ha-di-diversiteit_m4p3.xlsx
+                            </div>
+                        </div>
+                        <p style="margin-top: var(--space-12); font-size: var(--font-size-sm); color: var(--color-text-secondary);"><strong>DI-678:</strong> Handleiding voor discussie-activiteit over diversiteit (module 4, positie 3)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metadata Schema Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">LMS-Geïntegreerd Metadata Schema</h2>
+                
+                <div class="metadata-grid">
+                    <div class="card">
+                        <h3>🔑 Verplichte Velden</h3>
+                        <ul class="field-list">
+                            <li class="field-item">Documentnaam (verplicht)</li>
+                            <li class="field-item">Titel (verplicht)</li>
+                            <li class="field-item">Training_Afkorting (verplicht)</li>
+                            <li class="field-item">Training_ID (verplicht)</li>
+                            <li class="field-item">Functie (verplicht)</li>
+                            <li class="field-item">Activiteit (verplicht)</li>
+                            <li class="field-item">Onderwerp (verplicht)</li>
+                            <li class="field-item">Modulelokatie (verplicht)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎯 Optionele Velden</h3>
+                        <ul class="field-list">
+                            <li class="field-item optional">Tags (doorzoekbaar)</li>
+                            <li class="field-item optional">Auteur (persoon)</li>
+                            <li class="field-item optional">Reviewer (persoon)</li>
+                            <li class="field-item optional">Goedkeurder (persoon)</li>
+                            <li class="field-item optional">Beoordelingsdatum</li>
+                            <li class="field-item optional">Versienummer</li>
+                            <li class="field-item optional">Toegangsniveau</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🔗 LMS Integratie &amp; Relaties</h3>
+                        <ul class="field-list">
+                            <li class="field-item optional">Training_Afkorting + Training_ID bepaalt trainingscontext</li>
+                            <li class="field-item optional">Functie bepaalt documenttype workflows (pb, co, ev, ha)</li>
+                            <li class="field-item optional">Activiteit koppelt aan LMS activiteitstypen (in, fe, pr, re, di)</li>
+                            <li class="field-item optional">Modulelokatie regelt toegang per trainingsmodule</li>
+                            <li class="field-item optional">Onderwerp enables thematische content organisatie</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Timeline Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Implementatiefasen</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-title">Week 1-2</div>
+                            <div class="phase-name">LMS Planning &amp; Configuratie</div>
+                            <ul class="activity-list">
+                                <li class="activity-item">Training afkortingen systeem definiëren (PA, HPL, CM, TL, DI)</li>
+                                <li class="activity-item">LMS-geïntegreerd metadata schema opstellen</li>
+                                <li class="activity-item">SharePoint bibliotheek configureren voor LMS integratie</li>
+                                <li class="activity-item">Functie en activiteit codes vaststellen</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-title">Week 3-4</div>
+                            <div class="phase-name">LMS Content Migratie</div>
+                            <ul class="activity-list">
+                                <li class="activity-item">Bestaande documenten hernoemen naar LMS conventie</li>
+                                <li class="activity-item">Training IDs toewijzen aan alle trainingen</li>
+                                <li class="activity-item">Modulelokaties en activiteit types invullen</li>
+                                <li class="activity-item">Onderwerp taxonomie implementeren</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-title">Week 5-6</div>
+                            <div class="phase-name">LMS Automatisering &amp; Workflows</div>
+                            <ul class="activity-list">
+                                <li class="activity-item">Training afkorting gebaseerde workflows implementeren</li>
+                                <li class="activity-item">Activiteit-specifieke filters instellen (in, fe, pr, re, di)</li>
+                                <li class="activity-item">Module-gebaseerde toegangscontrole configureren</li>
+                                <li class="activity-item">LMS integratie dashboards creëren</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-title">Week 7-8</div>
+                            <div class="phase-name">LMS Training &amp; Adoptie</div>
+                            <ul class="activity-list">
+                                <li class="activity-item">Gebruikers trainen op LMS naming convention</li>
+                                <li class="activity-item">Functie en activiteit codes uitleggen</li>
+                                <li class="activity-item">Module-gebaseerde content organisatie training</li>
+                                <li class="activity-item">LMS-SharePoint integratie workshops</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-title">Week 9-10</div>
+                            <div class="phase-name">LMS Optimalisatie &amp; Go-Live</div>
+                            <ul class="activity-list">
+                                <li class="activity-item">Training afkorting systeem optimaliseren</li>
+                                <li class="activity-item">LMS activiteit workflows fine-tunen</li>
+                                <li class="activity-item">Module-gebaseerde governance implementeren</li>
+                                <li class="activity-item">Organisatie-brede LMS-integratie uitrol</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-marker"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Views Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">LMS-Specifieke Weergaven</h2>
+                
+                <div class="views-grid">
+                    <div class="card view-card">
+                        <span class="view-icon">👥</span>
+                        <h3 class="view-name">Mijn Training Activiteiten</h3>
+                        <p class="view-description">Gefilterd op Training_Afkorting en Activiteit</p>
+                        <div class="filter-badges">
+                            <span class="badge">Training_Afkorting = gebruiker</span>
+                            <span class="badge">Activiteit = alle</span>
+                            <span class="badge">Sorteren: Modulelokatie</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card view-card">
+                        <span class="view-icon">📁</span>
+                        <h3 class="view-name">Per Module Weergave</h3>
+                        <p class="view-description">Georganiseerd op Modulelokatie (m1, m2, m3, m4)</p>
+                        <div class="filter-badges">
+                            <span class="badge">Groeperen op: Modulelokatie</span>
+                            <span class="badge">Sorteren: Training_ID</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card view-card">
+                        <span class="view-icon">🔧</span>
+                        <h3 class="view-name">Functie-gebaseerde Weergave</h3>
+                        <p class="view-description">Gegroepeerd op functie (playbook, contract, evaluatie)</p>
+                        <div class="filter-badges">
+                            <span class="badge">Groeperen op: Functie</span>
+                            <span class="badge">Filter: pb, co, ev, ha</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card view-card">
+                        <span class="view-icon">📊</span>
+                        <h3 class="view-name">Activiteit Dashboard</h3>
+                        <p class="view-description">Overzicht van alle LMS activiteiten per training</p>
+                        <div class="filter-badges">
+                            <span class="badge">Groeperen op: Activiteit</span>
+                            <span class="badge">Filter: in, fe, pr, re, di</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Examples Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">LMS Zoekvoorbeelden</h2>
+                
+                <div class="search-examples">
+                    <div class="card search-item">
+                        <div class="search-query"><span class="k">Training_Afkorting</span>:<span class="v">PA</span> <span class="op">EN</span> <span class="k">Activiteit</span>:<span class="v">in</span></div>
+                        <div class="search-description">Zoek alle inleveropdrachten in Persoonlijk Leiderschap</div>
+                    </div>
+                    
+                    <div class="card search-item">
+                        <div class="search-query"><span class="k">Functie</span>:<span class="v">pb</span> <span class="op">EN</span> <span class="k">Onderwerp</span>:<span class="v">presentatie</span></div>
+                        <div class="search-description">Zoek alle playbooks over presenteren</div>
+                    </div>
+                    
+                    <div class="card search-item">
+                        <div class="search-query"><span class="k">Modulelokatie</span>:<span class="v">m1</span> <span class="op">EN</span> <span class="k">Training_ID</span>:<span class="v">>500</span></div>
+                        <div class="search-description">Zoek module 1 content van trainingen na positie 500</div>
+                    </div>
+                    
+                    <div class="card search-item">
+                        <div class="search-query"><span class="k">Activiteit</span>:<span class="v">fe</span> <span class="op">EN</span> <span class="k">Training_Afkorting</span>:<span class="v">HPL</span></div>
+                        <div class="search-description">Zoek feedback activiteiten in HPL training</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Voordelen LMS-Geïntegreerde Aanpak</h2>
+                
+                <div class="benefits-grid">
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">🎯</span>
+                        <h3 class="benefit-title">Directe Herkenning</h3>
+                        <p class="benefit-description">Documenttype zichtbaar zonder metadata via categorie ID</p>
+                    </div>
+                    
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">📚</span>
+                        <h3 class="benefit-title">Training Focus</h3>
+                        <p class="benefit-description">Alle documenten georganiseerd rond trainingsmodules</p>
+                    </div>
+                    
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">🏗️</span>
+                        <h3 class="benefit-title">Schaalbaarheid</h3>
+                        <p class="benefit-description">Platte structuur groeit zonder complexiteit</p>
+                    </div>
+                    
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">🔒</span>
+                        <h3 class="benefit-title">Beveiliging</h3>
+                        <p class="benefit-description">Gedetailleerde machtigingen op basis van training niveau</p>
+                    </div>
+                    
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">📊</span>
+                        <h3 class="benefit-title">Governance</h3>
+                        <p class="benefit-description">Geautomatiseerde compliance tracking per training</p>
+                    </div>
+                    
+                    <div class="card benefit-card">
+                        <span class="benefit-icon">⚡</span>
+                        <h3 class="benefit-title">Automatisering</h3>
+                        <p class="benefit-description">Categorie ID enables slimme workflows</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflows Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Power Automate Workflows</h2>
+                
+                <div class="workflows-grid">
+                    <div class="card workflow-item">
+                        <div class="workflow-icon">🎓</div>
+                        <div class="workflow-content">
+                            <h4>LMS Training Content Review</h4>
+                            <div class="workflow-trigger">Trigger: Per training afkorting schema</div>
+                            <p>Herinnering voor LMS materiaal beoordelingen per training</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card workflow-item">
+                        <div class="workflow-icon">🏷️</div>
+                        <div class="workflow-content">
+                            <h4>Auto LMS Metadata Parsing</h4>
+                            <div class="workflow-trigger">Trigger: Bij bestand upload</div>
+                            <p>Training_Afkorting, Functie en Activiteit instellen uit bestandsnaam</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card workflow-item">
+                        <div class="workflow-icon">✅</div>
+                        <div class="workflow-content">
+                            <h4>LMS Metadata Validation</h4>
+                            <div class="workflow-trigger">Trigger: Bij item creatie/wijziging</div>
+                            <p>Controleer Training_ID, Modulelokatie en Onderwerp volledigheid</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card workflow-item">
+                        <div class="workflow-icon">🔐</div>
+                        <div class="workflow-content">
+                            <h4>Module-Based Access Control</h4>
+                            <div class="workflow-trigger">Trigger: Bij Modulelokatie wijziging</div>
+                            <p>Machtigingen aanpassen op basis van training module</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Metrics Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Succes Indicatoren</h2>
+                
+                <ul class="metrics-list">
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">LMS metadata voltooiingspercentage</span>
+                            <span class="metric-target">&gt;95%</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:95%;"></div></div>
+                    </li>
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">Training-specifieke zoeksucces ratio</span>
+                            <span class="metric-target">&gt;90%</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:90%;"></div></div>
+                    </li>
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">LMS naming convention adoptie</span>
+                            <span class="metric-target">&gt;85%</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:85%;"></div></div>
+                    </li>
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">Module-gebaseerde content vindbaarheid</span>
+                            <span class="metric-target">+60%</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:60%;"></div></div>
+                    </li>
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">Training content organisatie tevredenheid</span>
+                            <span class="metric-target">9.0/10</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:90%;"></div></div>
+                    </li>
+                    <li class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-text">LMS-SharePoint integratie efficiency</span>
+                            <span class="metric-target">+70%</span>
+                        </div>
+                        <div class="metric-bar"><div class="metric-bar__target" style="width:70%;"></div></div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <h2>Implementatie Checklist</h2>
+                <ul class="checklist">
+                    <li class="checklist-item">Training afkortingen systeem gedefinieerd (PA, HPL, CM, TL, DI)</li>
+                    <li class="checklist-item">LMS-geïntegreerde bestandsnaamconventie vastgesteld</li>
+                    <li class="checklist-item">SharePoint bibliotheek geconfigureerd met LMS metadata</li>
+                    <li class="checklist-item">Functie en activiteit codes geïmplementeerd (pb, co, ev, ha + in, fe, pr, re, di)</li>
+                    <li class="checklist-item">Module-gebaseerde weergaven aangemaakt (m1p2 format)</li>
+                    <li class="checklist-item">Training ID en onderwerp taxonomie opgezet</li>
+                    <li class="checklist-item">LMS activiteit workflows geïmplementeerd</li>
+                    <li class="checklist-item">Training op LMS naming convention uitgevoerd</li>
+                    <li class="checklist-item">Module-gebaseerde governance beleid vastgesteld</li>
+                    <li class="checklist-item">LMS integratie success metrics gedefinieerd</li>
+                </ul>
+                
+                <p style="margin-top: 2rem; opacity: 0.8;">
+                    🎓 Dit is een LMS-geïntegreerde implementatiegids voor SharePoint platte documentstructuur<br>
+                    📅 Publicatiedatum: 15 oktober 2025<br>
+                    🔗 Ontworpen voor optimale LMS-SharePoint integratie<br>
+                    🔄 Voor updates en verbeteringen, bezoek de GitHub repository
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add animation on scroll for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Set initial styles and observe cards
+        document.querySelectorAll('.card, .timeline-item').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Progress indicator for reading
+        function updateProgressIndicator() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            let progressBar = document.querySelector('.progress-bar');
+            if (!progressBar) {
+                progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: ${scrolled}%;
+                    height: 4px;
+                    background: var(--color-primary);
+                    z-index: 9999;
+                    transition: width 0.1s ease;
+                `;
+                document.body.appendChild(progressBar);
+            }
+            
+            progressBar.style.width = scrolled + '%';
+        }
+        
+        window.addEventListener('scroll', updateProgressIndicator);
+        window.addEventListener('load', updateProgressIndicator);
+    </script>
+</body>
+</html>
