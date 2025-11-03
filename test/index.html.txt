@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thread Infographic: HTML & AI Video</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Info Thread: HTML & AI Video</h1>
+    <p>A visual summary of key steps and best practices</p>
+  </header>
+  <main>
+    <section class="infographic">
+      <div class="item">
+        <h2>Responsive HTML Creation</h2>
+        <ul>
+          <li>Use a local code editor (VS Code, Sublime, etc.)</li>
+          <li>Structure with HTML & CSS (media queries for responsiveness)</li>
+          <li>Test locally before publishing</li>
+        </ul>
+      </div>
+      <div class="item">
+        <h2>High Quality AI Video</h2>
+        <ul>
+          <li>Tools: Google Veo, Kling, Runway, Sora, Synthesia</li>
+          <li>Use clear prompts & reference images for guidance</li>
+          <li>Choose platforms with advanced audio & editing features</li>
+          <li>Export in high resolution & check usage rights</li>
+        </ul>
+      </div>
+      <div class="item">
+        <h2>Publish on GitHub</h2>
+        <ol>
+          <li>Initialize local folder as a git repository</li>
+          <li>Create a public repository on GitHub</li>
+          <li>Push your files (<code>git push</code>)</li>
+          <li>Enable GitHub Pages for web publishing</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Responsive Infographic Demo</p>
+  </footer>
+</body>
+</html>
