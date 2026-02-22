@@ -1,0 +1,10 @@
+## Navigation
+* [[Home]]
+* [[Getting Started]]
+* [[Installation]]
+* [[Configuration]]
+* [[API Reference]]
+  * [[API Endpoints]]
+  * [[Authentication]]
+* [[Troubleshooting]]
+* [[FAQ]]
